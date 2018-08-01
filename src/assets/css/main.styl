@@ -1,0 +1,265 @@
+// 全局样式
+@import './var'
+@import './reset'
+
+html,
+body,
+#app {
+  height 100%
+}
+
+body {
+  margin 0 auto
+  max-width 750px
+  font-family PingFangSC-Regular, '微软雅黑', 'Microsoft YaHei', Helvetica, STHeiTi, Sans-serif
+  line-height 1.5
+  font-size .28rem
+  background $silver
+  color $black
+  -webkit-text-size-adjust none
+  -webkit-tap-highlight-color rgba(255, 255, 255, 0)
+  outline 0
+  overflow-x hidden
+  -webkit-user-select none
+  /*-webkit-overflow-scrolling: touch*/
+}
+
+#app {
+  position: relative
+}
+
+
+// ======================================================================
+// 隐藏 vue 未编译的 Mustache 标签
+[v-cloak],
+.hidden {
+  display none
+}
+
+.v-link-active {
+  color $blue
+}
+
+// 隐藏元素
+.vhidden {
+  visibility hidden
+}
+
+// 动画
+// vue transitions
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+  will-change: transform
+  transition: all 300ms
+  position: absolute
+  left: 0
+  right: 0
+}
+.slide-right-enter {
+  transform: translateX(-100%)
+}
+.slide-right-leave-active {
+  transform: translateX(100%)
+}
+.slide-left-enter {
+  transform: translateX(100%)
+}
+.slide-left-leave-active {
+  transform: translateX(-100%)
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  /*-webkit-transition: all .3s*/
+  transition: all .3s
+}
+.fade-enter {
+  opacity: 0
+}
+.fade-leave-active {
+  display: none
+}
+
+.fade-all-enter-active,
+.fade-all-leave-active {
+  /*-webkit-transition: all .3s*/
+  transition: all .3s
+}
+.fade-all-enter,
+.fade-all-leave-active {
+  opacity: 0
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  /*-webkit-transition: all .3s*/
+  transition: all .3s
+}
+.slide-enter {
+  -webkit-transform: translate3d(.3rem, 0, 0)
+  transform: translateX(.3rem)
+  opacity: 0
+}
+.slide-leave-active {
+  display: none
+}
+
+.slide-all-enter-active,
+.slide-all-leave-active {
+  transition: all .3s
+}
+.slide-all-enter,
+.slide-all-leave-active {
+  transform: translateX(.3rem)
+  opacity: 0
+  &.t-reverse {
+    transform: translateX(-.3rem)
+  }
+}
+
+.bounce-enter-active {
+  animation: bounce 300ms
+}
+.bounce-leave-enter,
+.bounce-leave-active {
+  display: none
+}
+@keyframes bounce {
+  0% {transform: scale(0)}
+  50% {transform: scale(1.2)}
+  100% {transform: scale(1)}
+}
+
+.zoom-y-enter-active,
+.zoom-y-leave-active {
+  transition: all .3s
+  transform: scaleY(1.0)
+  transform-origin: top
+}
+.zoom-y-enter,
+.zoom-y-leave-active {
+  transform: scaleY(0)
+  opacity: 0
+}
+
+/* Retina 屏实现真正 1px 的线，四条线最多可同时用两条 */
+.hairlines-top,
+.hairlines-bottom {
+  position: relative;
+  /*border-bottom-color: transparent !important;*/
+}
+.hairlines-top {
+  border-top-color: transparent !important;
+}
+.hairlines-bottom {
+  border-bottom-color: transparent !important;
+}
+.hairlines-left {
+  border-left-color: transparent !important;
+}
+.hairlines-right {
+  border-right-color: transparent !important;
+}
+.hairlines-left::before,
+.hairlines-right::after,
+.hairlines-top::before,
+.hairlines-bottom::after {
+  content: '';
+  position: absolute;
+  /*z-index: 0;*/
+  /*bottom: -1px;*/
+  /*left: 0;*/
+  /*right: 0;*/
+  /*height: 1px;*/
+  background: $solid-gray;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+.hairlines-left::before,
+.hairlines-right::after {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  -webkit-transform: scaleX(.5);
+  transform: scaleX(.5);
+}
+.hairlines-left::before {
+  left: -1px;
+  right: auto;
+}
+.hairlines-right::after {
+  right: -1px;
+  left: auto;
+}
+.hairlines-top::before,
+.hairlines-bottom::after {
+  left: 0;
+  right: 0;
+  height: 1px;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+}
+.hairlines-top::before {
+  top: -1px;
+}
+.hairlines-bottom::after {
+  bottom: -1px;
+}
+
+
+// ======================================================================
+// 模块
+// ======================================================================
+
+/* 单个右箭 */
+.m-arrow-right {
+  display: block
+  width: .1rem
+  height: .1rem
+  border: 1px solid #4a4a4a
+  border-left: none
+  border-bottom: none
+  transform: rotate(45deg)
+  &.down {
+    transform: rotate(135deg) translate(-.03rem, .03rem)
+  }
+}
+
+/* 单个多选圆框 */
+.m-checked {
+  display: inline-block
+  position: relative
+  width: .44rem
+  height: .44rem
+  border: 1px solid transparent
+  background: transparent
+  vertical-align: middle
+  &.round {
+    border-color: $solid-gray
+    border-radius: 100%
+  }
+  &.checked {
+    &:after {
+      content: ''
+      position: absolute
+      top: .04rem
+      left: .14rem
+      width: .13rem
+      height: .26rem
+      border: .02rem solid $theme
+      border-top: 0
+      border-left: 0
+      transform: rotate(45deg)
+      transition: all .3s
+    }
+    &.fill {
+      background: $theme
+      border-color: $theme
+      &:after {
+        border-color: $white
+      }
+    }
+  }
+}

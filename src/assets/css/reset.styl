@@ -1,0 +1,103 @@
+ // 移动端通用重置样式模块 v1.2.0 by Zero 2017-11-27
+
+@charset 'utf-8'
+
+html
+  font-family '微软雅黑', 'Microsoft YaHei', Helvetica, STHeiTi, Sans-serif;
+  text-size-adjust 100%
+  font-size 16px
+
+body
+button
+input
+select
+textarea
+h1
+h2
+h3
+h4
+h5
+ul
+dl
+dd
+p
+fieldset
+  margin 0
+
+ul
+ol
+li
+dl
+dt
+dd
+tr
+td
+fieldset
+input
+  padding 0
+
+// 去除外框和去除聚焦时的阴影
+a
+a:active
+input
+textarea
+select
+button
+  outline 0
+  -webkit-tap-highlight-color rgba(0, 0, 0, 0)
+  -webkit-tap-highlight-color transparent
+
+a
+  color inherit
+  text-decoration none
+
+em
+i
+  font-style normal
+
+// 表格设置单独边框和去除单元格间距
+table
+  border-collapse collapse
+  border-spacing 0
+
+img
+input
+button
+  border none
+
+li
+  list-style none
+
+// 图片靠上对其及图片自适应
+img
+  vertical-align top
+  max-width 100%
+  height auto
+
+// 清除 ios 默认圆角
+input
+textarea
+select
+button
+  border-radius 0
+  font inherit
+
+// 统一表单样式
+button
+html input[type='button']
+input[type='reset']
+input[type='submit']
+  appearance button
+
+input[type='number']::-webkit-inner-spin-button
+input[type='number']::-webkit-outer-spin-button
+  height auto
+
+/* 统一搜索框的样式 */
+input[type='search']
+  appearance textfield
+  box-sizing content-box
+
+input[type='search']::-webkit-search-cancel-button
+input[type='search']::-webkit-search-decoration
+  appearance none
