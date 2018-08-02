@@ -11,7 +11,7 @@ import './assets/css/mintUi.styl'
 // 引入脚本
 import './assets/js/qingjs'
 import jdy from './assets/js/jdy'
-import yzj from './assets/js/yunzhijia'
+// import yzj from './assets/js/yunzhijia'
 import filters from './assets/js/filters'
 import directive from './assets/js/directive'
 
@@ -32,9 +32,7 @@ Object.keys(directive).forEach(k => Vue.directive(k, directive[k]))
 // 全局守卫
 router.beforeEach((to, from, next) => {
   // 根据路由meta设置title
-  const title = to.meta.title || document.title
-  jdy.setTitle(title)
-  yzj.setTitle(title)
+  jdy.setTitle(to.meta.title || document.title)
   next()
 })
 
