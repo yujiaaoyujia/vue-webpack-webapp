@@ -52,6 +52,7 @@ module.exports = {
     }],
 
     // specify rules
+    'import/no-cycle': 'off', // 禁止循环引入
     'semi': ['error', 'never'], // 要求或禁止使用分号代替 ASI
     'comma-dangle': ['error', { // 要求或禁止末尾逗号
       arrays: 'only-multiline',
