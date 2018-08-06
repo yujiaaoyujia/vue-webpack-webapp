@@ -9,10 +9,16 @@ export default function setTitle(title) {
   yzj.setTitle(title)
 
   if (isIOS) {
-    const $iframe = $('<iframe src="about:blank" style="display:none;"></iframe>').on('load', () => {
+    const $iframe = document.createElement('iframe')
+    $iframe.setAttribute('src', 'about:blank')
+    $iframe.style.display = 'none'
+    const iframeCallback = () => {
       setTimeout(() => {
-        $iframe.off('load').remove()
+        $iframe.removeEventListener('load', iframeCallback)
+        document.body.removeChild($iframe)
       }, 0)
-    }).appendTo('body')
+    }
+    $iframe.addEventListener('load', iframeCallback)
+    document.body.appendChild($iframe)
   }
 }
