@@ -5,23 +5,23 @@
 html,
 body,
 #app {
-  height 100%
+  height: 100%
 }
 
 body {
-  margin 0 auto
-  max-width 750px
-  font-family PingFangSC-Regular, '微软雅黑', 'Microsoft YaHei', Helvetica, STHeiTi, Sans-serif
-  line-height 1.5
-  font-size .28rem
-  background $silver
-  color $black
-  -webkit-text-size-adjust none
-  -webkit-tap-highlight-color rgba(255, 255, 255, 0)
-  outline 0
-  overflow-x hidden
-  -webkit-user-select none
-  /*-webkit-overflow-scrolling: touch*/
+  margin: 0 auto
+  max-width: 750px
+  font-family: PingFangSC-Regular, '微软雅黑', 'Microsoft YaHei', Helvetica, STHeiTi, Sans-serif
+  line-height: 1.5
+  font-size: .28rem
+  background: $silver
+  color: $black
+  -webkit-text-size-adjust: none
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0)
+  outline: 0
+  overflow-x: hidden
+  -webkit-user-select: none
+  /* -webkit-overflow-scrolling: touch */
 }
 
 #app {
@@ -33,16 +33,37 @@ body {
 // 隐藏 vue 未编译的 Mustache 标签
 [v-cloak],
 .hidden {
-  display none
+  display: none
 }
 
 .v-link-active {
-  color $blue
+  color: $blue
 }
 
 // 隐藏元素
 .vhidden {
-  visibility hidden
+  visibility: hidden
+}
+
+// 超出隐藏（防滚动）
+.ohidden {
+  overflow: hidden
+}
+
+// input-placeholder
+input {
+  &::-webkit-input-placeholder {
+    color: $placeholder
+  }
+  &::-moz-placeholder {
+    color: $placeholder
+  }
+  &:-moz-placeholder {
+    color: $placeholder
+  }
+  &:-ms-input-placeholder {
+    color: $placeholder
+  }
 }
 
 // 动画
@@ -72,8 +93,8 @@ body {
 
 .fade-enter-active,
 .fade-leave-active {
-  /*-webkit-transition: all .3s*/
-  transition: all .3s
+  /*-webkit-transition: all 300ms*/
+  transition: all 300ms
 }
 .fade-enter {
   opacity: 0
@@ -84,8 +105,8 @@ body {
 
 .fade-all-enter-active,
 .fade-all-leave-active {
-  /*-webkit-transition: all .3s*/
-  transition: all .3s
+  /*-webkit-transition: all 300ms*/
+  transition: all 300ms
 }
 .fade-all-enter,
 .fade-all-leave-active {
@@ -94,8 +115,8 @@ body {
 
 .slide-enter-active,
 .slide-leave-active {
-  /*-webkit-transition: all .3s*/
-  transition: all .3s
+  /*-webkit-transition: all 300ms*/
+  transition: all 300ms
 }
 .slide-enter {
   -webkit-transform: translate3d(.3rem, 0, 0)
@@ -108,7 +129,7 @@ body {
 
 .slide-all-enter-active,
 .slide-all-leave-active {
-  transition: all .3s
+  transition: all 300ms
 }
 .slide-all-enter,
 .slide-all-leave-active {
@@ -119,12 +140,40 @@ body {
   }
 }
 
+.slide-up-enter-active,
+.slide-up-leave-active,
+.slide-down-enter-active,
+.slide-down-leave-active {
+  will-change: transform
+  transition: all 300ms
+}
+.slide-up-enter,
+.slide-up-leave-active {
+  transform: translateY(100%)
+}
+.slide-down-enter,
+.slide-down-leave-active {
+  transform: translateY(-100%)
+}
 .bounce-enter-active {
   animation: bounce 300ms
 }
 .bounce-leave-enter,
 .bounce-leave-active {
   display: none
+}
+.bounce-all-enter-active {
+  animation: bounce 300ms
+}
+.bounce-all-leave-active {
+  transition: all 200ms
+}
+.bounce-all-enter {
+  transform: scale(1)
+}
+.bounce-all-leave-active {
+  transform: scale(0)
+  opacity: 0
 }
 @keyframes bounce {
   0% {transform: scale(0)}
@@ -134,7 +183,7 @@ body {
 
 .zoom-y-enter-active,
 .zoom-y-leave-active {
-  transition: all .3s
+  transition: all 300ms
   transform: scaleY(1.0)
   transform-origin: top
 }
@@ -215,10 +264,9 @@ body {
 
 /* 单个右箭 */
 .m-arrow-right {
-  display: block
-  width: .1rem
-  height: .1rem
-  border: 1px solid #4a4a4a
+  width: .2rem
+  height: .2rem
+  border: .02rem solid $gray
   border-left: none
   border-bottom: none
   transform: rotate(45deg)
@@ -227,17 +275,43 @@ body {
   }
 }
 
+/* 单个单选圆框 */
+.m-radio {
+  position: relative
+  width: .4rem
+  height: .4rem
+  border: .02rem solid #c5c3d5
+  border-radius: 50%
+  box-sizing: border-box
+  transition: all 300ms
+  &.selected {
+    border: none
+    background: $theme
+    box-sizing: content-box
+    &:before {
+      content: ''
+      display: block
+      position: absolute
+      left: 1px
+      right: 1px
+      top: 1px
+      bottom: 1px
+      border: .02rem solid $white
+      border-radius: 50%
+    }
+  }
+}
+
 /* 单个多选圆框 */
 .m-checked {
-  display: inline-block
   position: relative
-  width: .44rem
-  height: .44rem
-  border: 1px solid transparent
+  width: .4rem
+  height: .4rem
+  border: .02rem solid transparent
   background: transparent
   vertical-align: middle
   &.round {
-    border-color: $solid-gray
+    border-color: #c5c3d5
     border-radius: 100%
   }
   &.checked {
@@ -246,13 +320,13 @@ body {
       position: absolute
       top: .04rem
       left: .14rem
-      width: .13rem
-      height: .26rem
+      width: .1rem
+      height: .24rem
       border: .02rem solid $theme
       border-top: 0
       border-left: 0
       transform: rotate(45deg)
-      transition: all .3s
+      transition: all 300ms
     }
     &.fill {
       background: $theme
