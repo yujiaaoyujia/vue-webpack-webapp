@@ -13,6 +13,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = merge(baseConfig, {
   mode: 'production',
+  performance: {
+    hints: 'warning',
+    maxEntrypointSize: 512000, // default: 250000 bytes
+    maxAssetSize: 512000 // default: 250000 bytes
+  },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
@@ -71,6 +76,10 @@ module.exports = merge(baseConfig, {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
+
+    // 避免组件全量打包(moment.js) 二者取其一即可
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
+    // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
     new MiniCssExtractPlugin({
       filename: utils.assetsPath('css/[name].css')
