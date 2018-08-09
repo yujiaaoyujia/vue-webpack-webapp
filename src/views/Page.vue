@@ -1,15 +1,12 @@
 <template>
-  <article class="home">
-    <p>页面构建<AnimatedInteger value="100"></AnimatedInteger>%</p>
-    <router-link to="/Page">&gt; To Page</router-link>
+  <article class="page">
+    Page
   </article>
 </template>
 
 <script>
-import AnimatedInteger from '../components/AnimatedInteger'
-
 export default {
-  name: 'Home',
+  name: 'Page',
   data() {
     return {
 
@@ -37,7 +34,7 @@ export default {
   },
 
   components: {
-    AnimatedInteger
+
   },
 }
 </script>
