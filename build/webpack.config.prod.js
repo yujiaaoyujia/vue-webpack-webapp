@@ -6,6 +6,7 @@ const utils = require('./utils')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
@@ -20,8 +21,10 @@ module.exports = merge(baseConfig, {
   },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
+    filename: utils.assetsPath('js/[name].js'),
     path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].js')
+    chunkFilename: utils.assetsPath('js/[name].js'),
+    publicPath: config.build.assetsPublicPath
   },
   optimization: {
     minimizer: [
@@ -42,14 +45,29 @@ module.exports = merge(baseConfig, {
           : {}
       })
     ],
+    runtimeChunk: {
+      name: 'manifest'
+    },
     splitChunks: {
+      chunks: 'all',
+      minSize: 20000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      name: true,
       cacheGroups: {
         commons: {
+          minChunks: 2,
+          priority: -20,
+          name: 'common',
+          reuseExistingChunk: true,
+        },
+        vendors: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
-          chunks: 'all',
-        },
-      },
+          priority: -10
+        }
+      }
     },
   },
   module: {
@@ -80,6 +98,13 @@ module.exports = merge(baseConfig, {
     // 避免组件全量打包(moment.js) 二者取其一即可
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
     // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+    new CleanWebpackPlugin(['dist'], {
+      root: utils.resolve('./'),
+      exclude: ['startUp.js'],
+      verbose: false,
+      dry: false
+    }),
 
     new MiniCssExtractPlugin({
       filename: utils.assetsPath('css/[name].css')
