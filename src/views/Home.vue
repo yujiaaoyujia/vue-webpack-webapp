@@ -1,7 +1,7 @@
 <template>
   <article class="home">
-    页面构建
-    <AnimatedInteger value="100"></AnimatedInteger>%
+    <p>页面构建<AnimatedInteger value="100"></AnimatedInteger>%</p>
+    <router-link to="/Page">&gt; To Page</router-link>
   </article>
 </template>
 
