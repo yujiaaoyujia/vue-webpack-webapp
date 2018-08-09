@@ -15,7 +15,24 @@ export default {
     return {
       transition: 'fade'
     }
-  }
+  },
+
+  watch: {
+    // 根据索引值 判断前进后退状态
+    $route(to, from) {
+      const toDepth = to.meta.depth
+      const fromDepth = from.meta.depth
+      if (!toDepth || !fromDepth) {
+        this.transition = 'fade'
+      } else if (toDepth > fromDepth) {
+        this.transition = 'slide-left'
+      } else if (toDepth < fromDepth) {
+        this.transition = 'slide-right'
+      } else {
+        this.transition = 'fade'
+      }
+    }
+  },
 }
 </script>
 
