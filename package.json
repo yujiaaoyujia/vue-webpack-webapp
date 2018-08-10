@@ -13,6 +13,7 @@
     "Webpack 4"
   ],
   "author": "zero",
+  "private": true,
   "license": "MIT",
   "dependencies": {
     "@tweenjs/tween.js": "^17.2.0",
@@ -45,11 +46,11 @@
     "eslint-config-standard": "^11.0.0",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-import-resolver-webpack": "^0.10.1",
-    "eslint-loader": "^2.0.0",
-    "eslint-plugin-import": "^2.12.0",
+    "eslint-loader": "^2.1.0",
+    "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-vue": "^4.5.0",
+    "eslint-plugin-vue": "^4.7.1",
     "exports-loader": "^0.7.0",
     "file-loader": "^1.1.11",
     "friendly-errors-webpack-plugin": "^1.7.0",
