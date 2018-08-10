@@ -1,4 +1,4 @@
-# Vue-webpack-webapp-template
+# Vue-webpack-webapp
 
 > 定制化构建, 仿 vue-cli 2.0 目录结构, 移动端单页面webapp
 
