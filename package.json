@@ -1,7 +1,7 @@
 {
-  "name": "Vue-webpack-zero",
+  "name": "vue-webpack-webapp",
   "version": "1.0.0",
-  "description": "Webpack 4.0 Vuejs template",
+  "description": "Webpack 4.0 Vuejs Webapp template",
   "main": "main.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --progress --config build/webpack.config.dev.js",
