@@ -96,7 +96,7 @@ module.exports = merge(baseConfig, {
     }),
 
     // 避免组件全量打包(moment.js) 二者取其一即可
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
+    // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
     // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
     new CleanWebpackPlugin(['dist'], {
