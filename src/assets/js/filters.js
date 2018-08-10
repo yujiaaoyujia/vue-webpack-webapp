@@ -1,11 +1,11 @@
 // import jdy from '../assets/js/jdy/'
-import moment from 'moment'
+import format from 'date-fns/format'
 
-// 日期时间通过moment.js格式化
-export function formatMoment(v, format, iso) {
+// 日期时间通过 date-fns 格式化
+export function formatDate(v, form) {
   if (!v) { return '' }
-  if (format) {
-    return iso ? moment(v, iso).format(format) : moment(v).format(format)
+  if (form) {
+    return format(v, form)
   }
   return v
 }
@@ -17,6 +17,6 @@ export function splitByComma(num) {
 }
 
 export default {
-  formatMoment,
-  splitByComma
+  formatDate,
+  splitByComma,
 }
