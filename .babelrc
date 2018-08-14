@@ -14,6 +14,7 @@
       "regenerator": true,
       "moduleName": "babel-runtime"
     }],
+    ["transform-object-rest-spread"],
     ["syntax-dynamic-import"],
     ["component", [{
       "libraryName": "mint-ui",
