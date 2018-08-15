@@ -11,7 +11,6 @@ import './assets/css/mintUi.styl'
 // 引入脚本
 import './assets/js/qingjs'
 import jdy from './assets/js/jdy'
-// import yzj from './assets/js/yunzhijia'
 import filters from './assets/js/filters'
 import directive from './assets/js/directive'
 
