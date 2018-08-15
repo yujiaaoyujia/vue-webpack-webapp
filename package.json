@@ -24,8 +24,7 @@
     "mint-ui": "^2.2.13",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1",
-    "zepto": "^1.2.0"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^9.0.2",
