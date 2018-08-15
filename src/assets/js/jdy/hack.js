@@ -3,6 +3,7 @@ import yzj from '../yunzhijia'
 
 // 动态设置当前页面的标题
 export default function setTitle(title) {
+  if (!title) { return }
   document.title = title
 
   // 动态坑爹的云之家title

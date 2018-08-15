@@ -80,22 +80,10 @@ module.exports = {
           }
         }
       },
-      {
-        test: require.resolve('zepto'),
-        use: [
-          'exports-loader?window.Zepto',
-          'script-loader'
-        ]
-      }
     ]
   },
 
   plugins: [
     new VueLoaderPlugin(),
-    new webpack.ProvidePlugin({
-      $: 'zepto',
-      Zepto: 'zepto',
-      'window.Zepto': 'zepto',
-    }),
   ]
 }

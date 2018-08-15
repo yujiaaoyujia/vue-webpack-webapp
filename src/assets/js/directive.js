@@ -99,9 +99,14 @@ const active = {
         return false
       }
 
-      $(el).addClass(binding.value)
+      if (!el.className) {
+        el.className = binding.value
+      } else if (el.className.indexOf(binding.value) === -1) {
+        el.className = el.className + ' ' + binding.value
+      }
       return true
     }
+
     const touchEnd = (event) => {
       event.stopPropagation()
       const noPrevent = event.target.className.indexOf('no-prevent')
@@ -109,8 +114,9 @@ const active = {
         return false
       }
 
-      if ($(el).hasClass(binding.value)) {
-        $(el).removeClass(binding.value)
+      if (el.className.indexOf(binding.value) >= 0) {
+        const reg = new RegExp('\\s*' + binding.value, 'g')
+        el.className = el.className.replace(reg, '')
       }
       return true
     }
