@@ -1,5 +1,5 @@
 import { isIOS } from './env'
-import yzj from '../yunzhijia'
+import { setYzjTitle } from '../yunzhijia'
 
 // 动态设置当前页面的标题
 export default function setTitle(title) {
@@ -7,7 +7,7 @@ export default function setTitle(title) {
   document.title = title
 
   // 动态坑爹的云之家title
-  yzj.setTitle(title)
+  setYzjTitle(title)
 
   if (isIOS) {
     const $iframe = document.createElement('iframe')
