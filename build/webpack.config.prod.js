@@ -21,9 +21,9 @@ module.exports = merge(baseConfig, {
   },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
-    filename: utils.assetsPath('js/[name].js'),
+    filename: utils.assetsPath('js/[name].[chunkhash:7].js'),
     path: config.build.assetsRoot,
-    chunkFilename: utils.assetsPath('js/[name].js'),
+    chunkFilename: utils.assetsPath('js/[name].[chunkhash:7].js'),
     publicPath: config.build.assetsPublicPath
   },
   optimization: {
@@ -107,7 +107,7 @@ module.exports = merge(baseConfig, {
     }),
 
     new MiniCssExtractPlugin({
-      filename: utils.assetsPath('css/[name].css')
+      filename: utils.assetsPath('css/[name].[contenthash:7].css')
     }),
 
     // generate dist index.html with correct asset hash for caching.
