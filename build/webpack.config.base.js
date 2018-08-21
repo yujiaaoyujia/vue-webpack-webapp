@@ -46,6 +46,10 @@ module.exports = {
         use: 'vue-loader'
       }, {
         test: /\.js$/,
+        include: [
+          utils.resolve('src'),
+          utils.resolve('test'),
+        ],
         use: {
           loader: 'babel-loader',
           options: {
