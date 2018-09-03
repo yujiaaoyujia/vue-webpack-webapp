@@ -163,8 +163,8 @@ export function getObj(url) {
 }
 
 export function setObj(url, obj) {
-  obj.forEach((key, value) => {
-    url = setParam(key, value, url)
+  Object.keys(obj).forEach((key) => {
+    url = setParam(key, obj[key], url)
   })
   return url
 }
