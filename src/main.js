@@ -9,13 +9,15 @@ import './assets/css/main.styl'
 import './assets/css/mintUi.styl'
 
 // 引入脚本
-import './assets/js/qingjs'
+import './assets/js/qing'
 import jdy from './assets/js/jdy'
 import filters from './assets/js/filters'
 import directive from './assets/js/directive'
+import { initQingConfig } from './assets/js/yunzhijia'
 
 window.jdy = jdy
 Vue.prototype.$jdy = jdy
+initQingConfig()
 
 // 关闭生产模式下的提示
 Vue.config.productionTip = false
