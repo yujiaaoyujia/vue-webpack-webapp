@@ -1,11 +1,11 @@
 // import jdy from '../assets/js/jdy/'
-import format from 'date-fns/format'
+import dayjs from 'dayjs'
 
 // 日期时间通过 date-fns 格式化
 export function formatDate(v, form) {
   if (!v) { return '' }
   if (form) {
-    return format(v, form)
+    return dayjs(v).format(form)
   }
   return v
 }
