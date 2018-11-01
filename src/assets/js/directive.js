@@ -92,6 +92,7 @@ const menu = {
 // css:active扩充, 触发时添加指定类名 v-active
 const active = {
   bind(el, binding) {
+    const value = binding.value || 'active'
     const touchStart = (event) => {
       event.stopPropagation()
       const noPrevent = event.target.className.indexOf('no-prevent')
@@ -100,9 +101,9 @@ const active = {
       }
 
       if (!el.className) {
-        el.className = binding.value
-      } else if (el.className.indexOf(binding.value) === -1) {
-        el.className = el.className + ' ' + binding.value
+        el.className = value
+      } else if (el.className.indexOf(value) === -1) {
+        el.className = el.className + ' ' + value
       }
       return true
     }
@@ -114,8 +115,8 @@ const active = {
         return false
       }
 
-      if (el.className.indexOf(binding.value) >= 0) {
-        const reg = new RegExp('\\s*' + binding.value, 'g')
+      if (el.className.indexOf(value) >= 0) {
+        const reg = new RegExp('\\s*' + value, 'g')
         el.className = el.className.replace(reg, '')
       }
       return true
