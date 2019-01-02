@@ -5,11 +5,11 @@ const loading = Indicator
 const dialog = MessageBox
 export { toast, loading, dialog }
 
-export function msg(message) {
-  toast({
+export function msg(message, duration) {
+  return toast({
     message,
     position: 'bottom',
-    duration: 2000
+    duration: duration || 2000
   })
 }
 
@@ -18,5 +18,7 @@ export function lazyStart() {
   return new Promise(resolve => resolve(loading.open()))
 }
 export function lazyEnd() {
-  return loading.close()
+  return setTimeout(() => {
+    loading.close()
+  }, 0)
 }
