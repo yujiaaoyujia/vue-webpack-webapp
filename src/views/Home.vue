@@ -7,6 +7,8 @@
 
 <script>
 import AnimatedInteger from '../components/AnimatedInteger'
+// 异步组件
+// const HomeAdd = () => import(/* webpackChunkName: "HomeAdd" */ '../components/HomeAdd')
 
 export default {
   name: 'Home',

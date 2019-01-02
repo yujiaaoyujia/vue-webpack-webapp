@@ -9,7 +9,6 @@ import './assets/css/main.styl'
 import './assets/css/mintUi.styl'
 
 // 引入脚本
-import './assets/js/qing'
 import jdy from './assets/js/jdy'
 import filters from './assets/js/filters'
 import directive from './assets/js/directive'
@@ -17,7 +16,6 @@ import { initQingConfig } from './assets/js/yunzhijia'
 
 window.jdy = jdy
 Vue.prototype.$jdy = jdy
-initQingConfig()
 
 // 关闭生产模式下的提示
 Vue.config.productionTip = false
@@ -40,6 +38,10 @@ router.beforeEach((to, from, next) => {
 // 全局后置钩子
 // router.afterEach((to, from) => {})
 
+// 云之家jsbridge
+initQingConfig()
+
+// 创建vue实例
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

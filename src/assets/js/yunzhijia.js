@@ -1,5 +1,7 @@
-/* global qing:false */
-const isBridge = qing.isSupportNativeJsBridge
+import qing from './qing'
+// import jdy from './jdy'
+
+export const isBridge = qing.isSupportNativeJsBridge
 
 // 初始化qing.config
 // 在 qing.config 执行前，所有其它的 ydk api 都不会真正被调用
