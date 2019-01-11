@@ -1,5 +1,6 @@
 // import jdy from '../assets/js/jdy/'
 import dayjs from 'dayjs'
+import NP from 'number-precision'
 
 // 日期时间通过 date-fns 格式化
 export function formatDate(v, form) {
@@ -16,7 +17,13 @@ export function splitByComma(num) {
   return round.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 }
 
+// 基于精度四舍五入
+export function roundRatio(num, ratio) {
+  return NP.round(num, ratio).toFixed(ratio)
+}
+
 export default {
   formatDate,
   splitByComma,
+  roundRatio,
 }

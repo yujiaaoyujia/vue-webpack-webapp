@@ -1,11 +1,12 @@
-// import { getRootPath } from './location'
+import { getRootPath } from './location'
 
 export default {
-  devStatus: 'dev', // 'release',
-  devApi: '//' + window.location.host + '/abc/',
-  api: '//' + window.location.host + '/abc/',
-  actApi: 'product',
-  actName: 'actionName',
-  version: '1.0.3',
-  storageGUID: 'ProductChat',
+  devStatus: 'release', // 'release',
+  devApi: '//' + window.location.host + getRootPath(),
+  api: '//' + window.location.host + getRootPath(),
+  apiPrefix: {
+    default: 'api-prefix',
+  },
+  version: '1.0.0',
+  storageGUID: 'vue-webpack-webapp',
 }

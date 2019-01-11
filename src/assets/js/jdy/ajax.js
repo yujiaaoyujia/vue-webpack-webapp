@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs'
 import config from './config'
 // import cookie from './cookie'
 import { loading } from './ui'
@@ -49,7 +50,7 @@ export function ajax(opts) {
       }
 
       // 缓存数据
-      if (cachekey && +res.data.code === 0) {
+      if (cachekey && res.data.success) {
         session(cachekey, res.data)
       }
 
@@ -85,10 +86,20 @@ export function ajax(opts) {
       data: opts.data,
 
       // 这里可以在发送请求之前对请求数据做处理，比如form-data格式化等
-      // 这里可以使用开头引入的 qs（这个模块在安装 axios 的时候就已经安装了，不需要另外安装）
-      // transformRequest: [data => {
-      //   return qs.stringify(data)
-      // }],
+      // 使用开头引入的 qs，将请求值序列化为 url 形式
+      transformRequest: [
+        data => (
+          qs.stringify(data, {
+            encode: false
+          })
+          // 传入后端的 object 格式化为字符串
+          // Object.keys(data).forEach((item) => {
+          //   if (typeof data[item] === 'object') {
+          //     data[item] = JSON.stringify(data[item])
+          //   }
+          // })
+        )
+      ],
 
       // 这里提前处理返回的数据
       // transformResponse: [data => {
@@ -103,7 +114,7 @@ export function ajax(opts) {
       // withCredentials: true, // 指示是否跨站点访问控制请求，没搞懂是作毛用的
 
       // 指定请求超时之前的毫秒数
-      timeout: opts.timeout || 10000
+      timeout: opts.timeout || 30000
     }).then(done).catch((err) => {
       // 关闭接口动画
       if (!opts.noLoading) {
@@ -154,7 +165,7 @@ export function urlGet(url, params = {}, opts = {}) {
 
 // post 传统url请求封装
 export function urlPost(url, data = {}, opts = {}) {
-  data = JSON.stringify(data)
+  // data = JSON.stringify(data)
   // data = new URLSearchParams(data)
   // data.append('param1', 'value1')
   opts = Object.assign(opts, {
@@ -170,15 +181,13 @@ export function urlPost(url, data = {}, opts = {}) {
 }
 
 // 固定链接 请求方法不同的get
-export function get(action, params = {}, opts = {}) {
-  let url = opts.actApi || config.actApi
-  if (config.devStatus === 'dev') {
-    url = url + '.' + action // 方便通过fiddler代理使用模拟数据
+export function get(url, params = {}, opts = {}) {
+  // 前缀处理
+  if (opts.apiPrefix) {
+    url = config.apiPrefix[opts.apiPrefix] + url
+  } else {
+    url = config.apiPrefix.default + url
   }
-
-  params = Object.assign({
-    [config.actName]: action
-  }, params)
 
   opts = Object.assign(opts, {
     url,
@@ -189,21 +198,24 @@ export function get(action, params = {}, opts = {}) {
   return ajax(opts)
 }
 
-// 固定链接 请求方法不同的post
-export function post(action, data = {}, opts = {}) {
-  let url = opts.actApi || config.actApi
-  if (config.devStatus === 'dev') {
-    url = url + '.' + action // 方便通过fiddler代理使用模拟数据
+// post 请求链接增加 config 前缀
+export function post(url, data = {}, opts = {}) {
+  // 前缀处理
+  if (opts.apiPrefix) {
+    url = config.apiPrefix[opts.apiPrefix] + url
+  } else {
+    url = config.apiPrefix.default + url
   }
 
-  data = Object.assign({
-    [config.actName]: action
-  }, data)
-
+  // data = JSON.stringify(data)
+  // data = new URLSearchParams(data)
+  // data.append('param1', 'value1')
   opts = Object.assign(opts, {
     url,
-    data: JSON.stringify(data),
+    data,
+    // headers: {'content-type': 'application/x-www-form-urlencoded;charset=utf-8'},
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    // headers: {'content-type': 'multipart/form-data'},
     method: 'post'
   })
 

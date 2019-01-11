@@ -1,4 +1,6 @@
+// ======================================================================
 // 全局样式
+// ======================================================================
 @import './var'
 @import './reset'
 
@@ -93,7 +95,7 @@ input {
 
 .fade-enter-active,
 .fade-leave-active {
-  /*-webkit-transition: all 300ms*/
+  will-change: opacity
   transition: all 300ms
 }
 .fade-enter {
@@ -105,7 +107,7 @@ input {
 
 .fade-all-enter-active,
 .fade-all-leave-active {
-  /*-webkit-transition: all 300ms*/
+  will-change: opacity
   transition: all 300ms
 }
 .fade-all-enter,
@@ -113,13 +115,30 @@ input {
   opacity: 0
 }
 
+.fade-up-enter-active,
+.fade-up-leave-active,
+.fade-down-enter-active,
+.fade-down-leave-active {
+  will-change: transform, opacity
+  transition: all 300ms
+}
+.fade-up-enter,
+.fade-up-leave-active {
+  transform: translateY(100%)
+  opacity: 0
+}
+.fade-down-enter,
+.fade-down-leave-active {
+  transform: translateY(-100%)
+  opacity: 0
+}
+
 .slide-enter-active,
 .slide-leave-active {
-  /*-webkit-transition: all 300ms*/
+  will-change: transform, opacity
   transition: all 300ms
 }
 .slide-enter {
-  -webkit-transform: translate3d(.3rem, 0, 0)
   transform: translateX(.3rem)
   opacity: 0
 }
@@ -129,6 +148,7 @@ input {
 
 .slide-all-enter-active,
 .slide-all-leave-active {
+  will-change: transform, opacity
   transition: all 300ms
 }
 .slide-all-enter,
@@ -155,6 +175,7 @@ input {
 .slide-down-leave-active {
   transform: translateY(-100%)
 }
+
 .bounce-enter-active {
   animation: bounce 300ms
 }
@@ -163,15 +184,15 @@ input {
   display: none
 }
 .bounce-all-enter-active {
+  will-change: transform, opacity
   animation: bounce 300ms
-}
-.bounce-all-leave-active {
-  transition: all 200ms
 }
 .bounce-all-enter {
   transform: scale(1)
 }
 .bounce-all-leave-active {
+  will-change: transform, opacity
+  transition: all 200ms
   transform: scale(0)
   opacity: 0
 }
@@ -183,6 +204,7 @@ input {
 
 .zoom-y-enter-active,
 .zoom-y-leave-active {
+  will-change: transform, opacity
   transition: all 300ms
   transform: scaleY(1.0)
   transform-origin: top
@@ -259,6 +281,12 @@ input {
 
 
 // ======================================================================
+// 通用样式
+// ======================================================================
+
+
+
+// ======================================================================
 // 模块
 // ======================================================================
 
@@ -272,68 +300,5 @@ input {
   transform: rotate(45deg)
   &.down {
     transform: rotate(135deg) translate(-.03rem, .03rem)
-  }
-}
-
-/* 单个单选圆框 */
-.m-radio {
-  position: relative
-  width: .4rem
-  height: .4rem
-  border: .02rem solid #c5c3d5
-  border-radius: 50%
-  box-sizing: border-box
-  transition: all 300ms
-  &.selected {
-    border: none
-    background: $theme
-    box-sizing: content-box
-    &:before {
-      content: ''
-      display: block
-      position: absolute
-      left: 1px
-      right: 1px
-      top: 1px
-      bottom: 1px
-      border: .02rem solid $white
-      border-radius: 50%
-    }
-  }
-}
-
-/* 单个多选圆框 */
-.m-checked {
-  position: relative
-  width: .4rem
-  height: .4rem
-  border: .02rem solid transparent
-  background: transparent
-  vertical-align: middle
-  &.round {
-    border-color: #c5c3d5
-    border-radius: 100%
-  }
-  &.checked {
-    &:after {
-      content: ''
-      position: absolute
-      top: .04rem
-      left: .14rem
-      width: .1rem
-      height: .24rem
-      border: .02rem solid $theme
-      border-top: 0
-      border-left: 0
-      transform: rotate(45deg)
-      transition: all 300ms
-    }
-    &.fill {
-      background: $theme
-      border-color: $theme
-      &:after {
-        border-color: $white
-      }
-    }
   }
 }

@@ -11,8 +11,15 @@ export default {
     value: {
       required: true
     },
+    max: {
+      default: 0
+    },
     format: {
       type: Function
+    },
+    duration: {
+      type: Number,
+      default: 500
     }
   },
 
@@ -63,8 +70,13 @@ export default {
         }
       }
 
+      // 动画数字最大值（同时影响显示值）
+      if (+this.max && +this.max <= endValue) {
+        endValue = +this.max
+      }
+
       new TWEEN.Tween({ animateValue: startValue })
-        .to({ animateValue: endValue }, 1000)
+        .to({ animateValue: endValue }, this.duration)
         .onUpdate((item) => {
           this.tweeningValue = item.animateValue.toFixed(fixed)
         })
