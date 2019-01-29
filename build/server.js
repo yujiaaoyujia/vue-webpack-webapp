@@ -1,128 +1,30 @@
+const handler = require('serve-handler')
 const http = require('http')
-const url = require('url')
-const fs = require('fs')
-const path = require('path')
 
 // 配置
 const config = {
-  port: 8080,
-  denyAccess: ['./server.js'],
-  localIPs: ['127.0.0.1'],
-  srcpath: '/src'
+  port: 5000,
+  path: './dist',
 }
 
-// 得到 ContentType
-const getContentTypeByExt = (ext) => {
-  ext = ext.toLowerCase()
-  switch (ext) {
-    case '.htm':
-    case '.html':
-      return 'text/html'
-    case '.js':
-      return 'application/x-javascript'
-    case '.css':
-      return 'text/css'
-    case '.jpe':
-    case '.jpeg':
-    case '.jpg':
-      return 'image/jpeg'
-    case '.png':
-      return 'image/png'
-    case '.ico':
-      return 'image/x-icon'
-    case '.zip':
-      return 'application/zip'
-    case '.doc':
-      return 'application/msword'
-    default:
-      return 'text/plain'
-  }
-}
-
-// 处理静态资源
-const staticResHandler = (localPath, ext, response) => {
-  fs.readFile(localPath, 'binary', (error, file) => {
-    if (error) {
-      response.writeHead(500, { 'Content-Type': 'text/plain' })
-      response.end('Server Error:' + error)
-    } else {
-      response.writeHead(200, { 'Content-Type': getContentTypeByExt(ext) })
-      response.end(file, 'binary')
-    }
+const server = http.createServer((request, response) => (
+  // You pass two more arguments for config and middleware
+  // More details here: https://github.com/zeit/serve-handler#options
+  handler(request, response, {
+    public: config.path, // Set a sub directory to be served
+    // cleanUrls: Have the .html extension stripped from paths
+    // rewrites: Rewrite paths to different paths
+    // redirects: Forward paths to different paths or external URLs
+    // headers: Set custom headers for specific paths
+    // directoryListing: Disable directory listing or restrict it to certain paths
+    // unlisted: Exclude paths from the directory listing
+    // trailingSlash: Remove or add trailing slashes to all paths
+    // renderSingle: If a directory only contains one file, render it
   })
-}
+))
 
-// 路由URL
-const processRequestRoute = (request, response) => {
-  let pathname = url.parse(request.url).pathname
-  if (pathname === '/') {
-    pathname = '/index.html' // 默认页面
-  }
-  const ext = path.extname(pathname)
-  let localPath = '' // 本地相对路径
-  let staticRes = false // 是否是静态资源
-
-  if (ext.length > 0) {
-    localPath = '.' + pathname
-    staticRes = true
-  } else {
-    localPath = '.' + config.srcpath + pathname + '.js'
-    staticRes = false
-  }
-
-  // 禁止远程访问
-  if (config.denyAccess && config.denyAccess.length > 0) {
-    let islocal = false
-    const remoteAddress = request.connection.remoteAddress
-    for (let j = 0; j < config.localIPs.length; j++) {
-      if (remoteAddress === config.localIPs[j]) {
-        islocal = true
-        break
-      }
-    }
-    if (!islocal) {
-      for (let i = 0; i < config.denyAccess.length; i++) {
-        if (localPath === config.denyAccess[i]) {
-          response.writeHead(403, { 'Content-Type': 'text/plain' })
-          response.end('403:Deny access to this page')
-          return
-        }
-      }
-    }
-  }
-  // 禁止访问后端js
-  if (staticRes && localPath.indexOf(config.srcpath) >= 0) {
-    response.writeHead(403, { 'Content-Type': 'text/plain' })
-    response.end('403:Deny access to this page')
-    return
-  }
-
-  fs.exists(localPath, (exists) => {
-    if (exists) {
-      if (staticRes) {
-        staticResHandler(localPath, ext, response) // 静态资源
-      } else {
-        try {
-          const handler = require(localPath)
-          if (handler.processRequest && typeof handler.processRequest === 'function') {
-            handler.processRequest(request, response) // 动态资源
-          } else {
-            response.writeHead(404, { 'Content-Type': 'text/plain' })
-            response.end('404:Handle Not found')
-          }
-        } catch (exception) {
-          console.log('error::url:' + request.url + 'msg:' + exception)
-          response.writeHead(500, { 'Content-Type': 'text/plain' })
-          response.end('Server Error:' + exception)
-        }
-      }
-    } else { // 资源不存在
-      response.writeHead(404, { 'Content-Type': 'text/plain' })
-      response.end('404:File Not found')
-    }
-  })
-}
-
-// 开始HTTP服务器
-http.createServer(processRequestRoute).listen(config.port)
-console.log('Server has started. port:' + config.port)
+// 开始 http 服务器
+// More details here: https://nodejs.org/api/net.html#net_server_listen
+server.listen(config.port, () => {
+  console.log(`Server has started. Port: ${config.port}`)
+})
