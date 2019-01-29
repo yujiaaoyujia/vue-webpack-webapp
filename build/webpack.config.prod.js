@@ -118,6 +118,7 @@ module.exports = merge(baseConfig, {
       template: 'index.html',
       // favicon: 'favicon.png',
       inject: true,
+      hash: false,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
