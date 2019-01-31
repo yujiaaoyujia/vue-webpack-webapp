@@ -9,7 +9,8 @@ export default {
   name: 'AnimatedInteger',
   props: {
     value: {
-      required: true
+      required: true,
+      default: 0
     },
     max: {
       default: 0
@@ -77,6 +78,7 @@ export default {
 
       new TWEEN.Tween({ animateValue: startValue })
         .to({ animateValue: endValue }, this.duration)
+        .easing(TWEEN.Easing.Quartic.Out) // see http://sole.github.io/tween.js/examples/03_graphs.html
         .onUpdate((item) => {
           this.tweeningValue = item.animateValue.toFixed(fixed)
         })
