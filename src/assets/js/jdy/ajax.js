@@ -5,6 +5,9 @@ import config from './config'
 import { loading } from './ui'
 import { session } from './storage'
 
+config.apiPrefix = config.apiPrefix || {}
+config.apiSuffix = config.apiSuffix || {}
+
 export const xhrs = []
 // axios.defaults.timeout = 8000
 // axios.defaults.baseURL = config.api
@@ -111,7 +114,7 @@ export function ajax(opts) {
 
       // headers: {'content-type': 'application/json'},
       headers: opts.headers || opts.header || { 'content-type': 'text/plain' }, // 这里要重设，默认的有跨域问题
-      // withCredentials: true, // 指示是否跨站点访问控制请求，没搞懂是作毛用的
+      // withCredentials: true, // 指示是否跨站点访问控制请求，允许携带cookie
 
       // 指定请求超时之前的毫秒数
       timeout: opts.timeout || 30000
@@ -182,12 +185,10 @@ export function urlPost(url, data = {}, opts = {}) {
 
 // 固定链接 请求方法不同的get
 export function get(url, params = {}, opts = {}) {
-  // 前缀处理
-  if (opts.apiPrefix) {
-    url = config.apiPrefix[opts.apiPrefix] + url
-  } else {
-    url = config.apiPrefix.default + url
-  }
+  // 前缀后缀处理
+  const apiPrefix = config.apiPrefix[opts.apiPrefix] || config.apiPrefix.default || ''
+  const apiSuffix = config.apiSuffix[opts.apiSuffix] || config.apiSuffix.default || ''
+  url = apiPrefix + url + apiSuffix
 
   opts = Object.assign(opts, {
     url,
@@ -200,12 +201,10 @@ export function get(url, params = {}, opts = {}) {
 
 // post 请求链接增加 config 前缀
 export function post(url, data = {}, opts = {}) {
-  // 前缀处理
-  if (opts.apiPrefix) {
-    url = config.apiPrefix[opts.apiPrefix] + url
-  } else {
-    url = config.apiPrefix.default + url
-  }
+  // 前缀后缀处理
+  const apiPrefix = config.apiPrefix[opts.apiPrefix] || config.apiPrefix.default || ''
+  const apiSuffix = config.apiSuffix[opts.apiSuffix] || config.apiSuffix.default || ''
+  url = apiPrefix + url + apiSuffix
 
   // data = JSON.stringify(data)
   // data = new URLSearchParams(data)
@@ -228,5 +227,5 @@ export default {
   urlGet,
   urlPost,
   get,
-  post
+  post,
 }
