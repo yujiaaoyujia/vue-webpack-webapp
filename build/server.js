@@ -1,10 +1,25 @@
 const handler = require('serve-handler')
 const http = require('http')
+const os = require('os')
 
 // 配置
 const config = {
   port: 5000,
   path: './dist',
+}
+
+// 获取本机IPv4地址
+function getIpAddress() {
+  const interfaces = os.networkInterfaces()
+  const networks = Object.values(interfaces)
+  let ipAddress = ''
+  networks.forEach((net) => {
+    const network = (net || []).find(alias => alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
+    if (network) {
+      ipAddress = network.address
+    }
+  })
+  return ipAddress
 }
 
 const server = http.createServer((request, response) => (
@@ -26,5 +41,6 @@ const server = http.createServer((request, response) => (
 // 开始 http 服务器
 // More details here: https://nodejs.org/api/net.html#net_server_listen
 server.listen(config.port, () => {
-  console.log(`Server has started. Port: ${config.port}`)
+  const ipAddress = getIpAddress()
+  console.log(`Server has started. Running on http://${ipAddress}:${config.port}`)
 })

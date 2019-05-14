@@ -16,7 +16,7 @@ export default new Router({
       path: '/Home',
       component: Home,
       meta: {
-        title: 'Home',
+        title: 'router.Home',
         depth: 1
       },
     },
@@ -24,7 +24,7 @@ export default new Router({
       path: '/Page',
       component: Page,
       meta: {
-        title: 'Page',
+        title: 'router.Page',
         depth: 2
       },
     },
