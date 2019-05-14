@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import store from './store'
 import router from './router'
+import { i18n, loadLanguage } from './lang'
 import App from './App'
 
 // 引入全局样式
@@ -31,22 +32,27 @@ Object.keys(directive).forEach(k => Vue.directive(k, directive[k]))
 // 全局守卫
 router.beforeEach((to, from, next) => {
   // 根据路由meta设置title
-  jdy.setTitle(to.meta.title || document.title)
+  const title = i18n.t(to.meta.title) || document.title
+  jdy.setTitle(title)
   next()
 })
 
 // 全局后置钩子
 // router.afterEach((to, from) => {})
 
-// 云之家jsbridge
-initQingConfig()
+// 获取语言包以后再初始化
+loadLanguage().then(() => {
+  // 云之家jsbridge
+  initQingConfig()
 
-// 创建vue实例
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  store,
-  router,
-  template: '<App/>',
-  components: { App }
+  // 创建vue实例
+  /* eslint-disable no-new */
+  new Vue({
+    el: '#app',
+    i18n,
+    store,
+    router,
+    template: '<App/>',
+    components: { App }
+  })
 })

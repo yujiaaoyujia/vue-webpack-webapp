@@ -1,5 +1,5 @@
 import axios from 'axios'
-import qs from 'qs'
+// import qs from 'qs'
 import config from './config'
 // import cookie from './cookie'
 import { loading } from './ui'
@@ -33,6 +33,10 @@ export function upParams() {
 upParams()
 // console.log('params:', params)
 
+// 初始化加载中队列
+window.ajaxLoading = []
+const showLoading = []
+
 // Ajax 请求封装
 export function ajax(opts) {
   upParams()
@@ -43,8 +47,12 @@ export function ajax(opts) {
     const cache = cachekey ? session(cachekey) : null
     const done = (res) => {
       // 关闭接口动画
+      window.ajaxLoading.pop()
       if (!opts.noLoading) {
-        loading.close()
+        showLoading.pop()
+        if (showLoading.length <= 0) {
+          loading.close()
+        }
       }
 
       // 补充返回服务器时间
@@ -71,7 +79,9 @@ export function ajax(opts) {
     }
 
     // 调用接口动画
+    window.ajaxLoading.push(1)
     if (!opts.noLoading) {
+      showLoading.push(1)
       loading.open()
     }
 
@@ -90,19 +100,19 @@ export function ajax(opts) {
 
       // 这里可以在发送请求之前对请求数据做处理，比如form-data格式化等
       // 使用开头引入的 qs，将请求值序列化为 url 形式
-      transformRequest: [
-        data => (
-          qs.stringify(data, {
-            encode: false
-          })
-          // 传入后端的 object 格式化为字符串
-          // Object.keys(data).forEach((item) => {
-          //   if (typeof data[item] === 'object') {
-          //     data[item] = JSON.stringify(data[item])
-          //   }
-          // })
-        )
-      ],
+      // transformRequest: [
+      //   data => (
+      //     qs.stringify(data, {
+      //       encode: false
+      //     })
+      //     // 传入后端的 object 格式化为字符串
+      //     // Object.keys(data).forEach((item) => {
+      //     //   if (typeof data[item] === 'object') {
+      //     //     data[item] = JSON.stringify(data[item])
+      //     //   }
+      //     // })
+      //   )
+      // ],
 
       // 这里提前处理返回的数据
       // transformResponse: [data => {
@@ -120,8 +130,12 @@ export function ajax(opts) {
       timeout: opts.timeout || 30000
     }).then(done).catch((err) => {
       // 关闭接口动画
+      window.ajaxLoading.pop()
       if (!opts.noLoading) {
-        loading.close()
+        showLoading.pop()
+        if (showLoading.length <= 0) {
+          loading.close()
+        }
       }
 
       if (err.response) {
@@ -168,15 +182,16 @@ export function urlGet(url, params = {}, opts = {}) {
 
 // post 传统url请求封装
 export function urlPost(url, data = {}, opts = {}) {
-  // data = JSON.stringify(data)
+  data = JSON.stringify(data)
   // data = new URLSearchParams(data)
   // data.append('param1', 'value1')
   opts = Object.assign(opts, {
     url,
     data,
     // headers: {'content-type': 'application/x-www-form-urlencoded;charset=utf-8'},
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    // headers: { 'content-type': 'application/x-www-form-urlencoded' },
     // headers: {'content-type': 'multipart/form-data'},
+    headers: { 'content-type': 'application/json' },
     method: 'post'
   })
 
@@ -206,15 +221,16 @@ export function post(url, data = {}, opts = {}) {
   const apiSuffix = config.apiSuffix[opts.apiSuffix] || config.apiSuffix.default || ''
   url = apiPrefix + url + apiSuffix
 
-  // data = JSON.stringify(data)
+  data = JSON.stringify(data)
   // data = new URLSearchParams(data)
   // data.append('param1', 'value1')
   opts = Object.assign(opts, {
     url,
     data,
     // headers: {'content-type': 'application/x-www-form-urlencoded;charset=utf-8'},
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    // headers: { 'content-type': 'application/x-www-form-urlencoded' },
     // headers: {'content-type': 'multipart/form-data'},
+    headers: { 'content-type': 'application/json' },
     method: 'post'
   })
 
