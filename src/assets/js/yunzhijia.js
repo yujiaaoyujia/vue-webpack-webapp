@@ -1,4 +1,4 @@
-import qing from './qing'
+import qing from './lib/qing'
 // import jdy from './jdy'
 
 export const isBridge = qing.isSupportNativeJsBridge

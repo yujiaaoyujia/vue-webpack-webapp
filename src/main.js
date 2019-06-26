@@ -5,9 +5,9 @@ import { i18n, loadLanguage } from './lang'
 import App from './App'
 
 // 引入全局样式
-import './assets/js/flexible'
+import './assets/js/lib/flexible'
 import './assets/css/main.styl'
-import './assets/css/mintUi.styl'
+import './assets/css/vant.styl'
 
 // 引入脚本
 import jdy from './assets/js/jdy'

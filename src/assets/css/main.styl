@@ -215,70 +215,30 @@ input {
   opacity: 0
 }
 
-/* Retina 屏实现真正 1px 的线，四条线最多可同时用两条 */
-.hairlines-top,
-.hairlines-bottom {
-  position: relative;
-  /*border-bottom-color: transparent !important;*/
+// postcss-write-svg 处理 retina 1px 问题
+@svg retina-square {
+  @rect {
+    fill: var(--color, $white)
+    width: 100%
+    height: 100%
+  }
 }
-.hairlines-top {
-  border-top-color: transparent !important;
-}
-.hairlines-bottom {
-  border-bottom-color: transparent !important;
-}
-.hairlines-left {
-  border-left-color: transparent !important;
-}
-.hairlines-right {
-  border-right-color: transparent !important;
-}
-.hairlines-left::before,
-.hairlines-right::after,
-.hairlines-top::before,
-.hairlines-bottom::after {
-  content: '';
-  position: absolute;
-  /*z-index: 0;*/
-  /*bottom: -1px;*/
-  /*left: 0;*/
-  /*right: 0;*/
-  /*height: 1px;*/
-  background: $solid-gray;
-  -webkit-transform-origin: 0 0;
-  transform-origin: 0 0;
-}
-.hairlines-left::before,
-.hairlines-right::after {
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  -webkit-transform: scaleX(.5);
-  transform: scaleX(.5);
-}
-.hairlines-left::before {
-  left: -1px;
-  right: auto;
-}
-.hairlines-right::after {
-  right: -1px;
-  left: auto;
-}
-.hairlines-top::before,
-.hairlines-bottom::after {
-  left: 0;
-  right: 0;
-  height: 1px;
-  -webkit-transform: scaleY(.5);
-  transform: scaleY(.5);
-}
-.hairlines-top::before {
-  top: -1px;
-}
-.hairlines-bottom::after {
-  bottom: -1px;
+.hairlines-bg {
+  background: $solid-gray svg(retina-square param(--color $white))
 }
 
+@svg retina-border {
+  height: 2px
+  @rect {
+    fill: var(--color, black)
+    width: 100%
+    height: 50%
+  }
+}
+.hairlines-bottom {
+  border-bottom: 1px solid transparent
+  border-image: svg(retina-border param(--color $solid-gray)) 2 2 stretch
+}
 
 // ======================================================================
 // 通用样式
