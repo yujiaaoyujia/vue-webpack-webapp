@@ -4,7 +4,7 @@ import { getParam, setParam, delParam, setObj, getRootPath } from './location'
 import setTitle from './hack'
 import cookie from './cookie'
 import { pureStore, store, pureSession, session } from './storage'
-import { msg, toast, loading, dialog } from './ui'
+import { msg, toast, loading } from './ui'
 import { ajax, urlGet, urlPost, get, post, xhrs, params, upParams } from './ajax'
 
 // 工具函数库
@@ -43,7 +43,6 @@ export default {
   msg,
   toast,
   loading,
-  dialog,
 
   // ajax
   ajax,

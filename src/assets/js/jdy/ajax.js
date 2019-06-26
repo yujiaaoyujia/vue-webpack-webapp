@@ -51,7 +51,7 @@ export function ajax(opts) {
       if (!opts.noLoading) {
         showLoading.pop()
         if (showLoading.length <= 0) {
-          loading.close()
+          loading.hide()
         }
       }
 
@@ -82,7 +82,7 @@ export function ajax(opts) {
     window.ajaxLoading.push(1)
     if (!opts.noLoading) {
       showLoading.push(1)
-      loading.open()
+      loading.show()
     }
 
     const xhr = axios({
@@ -134,7 +134,7 @@ export function ajax(opts) {
       if (!opts.noLoading) {
         showLoading.pop()
         if (showLoading.length <= 0) {
-          loading.close()
+          loading.hide()
         }
       }
 

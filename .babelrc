@@ -13,9 +13,10 @@
     }],
     ["transform-object-rest-spread"],
     ["syntax-dynamic-import"],
-    ["component", [{
-      "libraryName": "mint-ui",
+    ["import", {
+      "libraryName": "vant",
+      "libraryDirectory": "es",
       "style": true
-    }]]
+    }]
   ]
 }
