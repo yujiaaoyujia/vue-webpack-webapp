@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import jdy from '../assets/js/jdy'
 import AnimatedInteger from '../components/AnimatedInteger'
 // 异步组件
 // const HomeAdd = () => import(/* webpackChunkName: "HomeAdd" */ '../components/HomeAdd')
@@ -23,7 +24,7 @@ export default {
   },
 
   created() {
-
+    this.getJson()
   },
 
   mounted() {
@@ -35,7 +36,20 @@ export default {
   },
 
   methods: {
-
+    getJson() {
+      jdy.post('GetJson', {}, {
+        success: (res) => {
+          if (res.success) {
+            jdy.msg((res.data || {}).test)
+          } else {
+            jdy.msg(res.message)
+          }
+        },
+        error: () => {
+          // jdy.msg('获取JSON失败，请检查网络设置。')
+        }
+      })
+    },
   },
 
   components: {

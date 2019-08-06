@@ -55,7 +55,8 @@ const devWebpackConfig = merge(baseConfig, {
 
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      'process.env.NODE_ENV': JSON.stringify('development'),
+      'process.env.MOCK': process.env.MOCK,
     }),
 
     new webpack.HotModuleReplacementPlugin(),

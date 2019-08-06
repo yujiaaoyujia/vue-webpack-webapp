@@ -15,12 +15,12 @@ export default new Router({
     {
       path: '/Home',
       component: Home,
-      meta: { title: 'router.Home' },
+      meta: { title: 'Home' },
     },
     {
       path: '/Page',
       component: Page,
-      meta: { title: 'router.Page' },
+      meta: { title: 'Page' },
     },
     {
       path: '*',

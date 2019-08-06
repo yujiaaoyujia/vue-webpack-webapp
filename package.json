@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --progress --config build/webpack.config.dev.js",
+    "dev:mock": "cross-env NODE_ENV=development MOCK=true webpack-dev-server --progress --config build/webpack.config.dev.js",
     "dist": "cross-env NODE_ENV=production webpack --config build/webpack.config.prod.js",
     "build": "node build/build.js",
     "server": "node build/server.js"
@@ -25,7 +26,6 @@
     "qs": "^6.5.2",
     "vant": "^2.0.2",
     "vue": "^2.6.10",
-    "vue-i18n": "^8.11.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
@@ -59,6 +59,7 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.4.0",
+    "mockjs": "^1.0.1-beta3",
     "node-notifier": "^5.2.1",
     "optimize-css-assets-webpack-plugin": "^5.0.0",
     "ora": "^3.0.0",
