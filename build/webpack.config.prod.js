@@ -6,7 +6,7 @@ const utils = require('./utils')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
@@ -32,9 +32,8 @@ module.exports = merge(baseConfig, {
         sourceMap: config.build.productionSourceMap,
         parallel: true,
         uglifyOptions: {
-          compress: {
-            warnings: false
-          },
+          warnings: false,
+          compress: {},
         },
       }),
       // Compress extracted CSS. We are using this plugin so that possible
@@ -114,11 +113,11 @@ module.exports = merge(baseConfig, {
     // 打包排除 mock
     new webpack.IgnorePlugin(/\.\/mock/),
 
-    new CleanWebpackPlugin(['dist'], {
-      root: utils.resolve('./'),
-      exclude: ['startUp.js'],
+    new CleanWebpackPlugin({
+      dry: false,
       verbose: false,
-      dry: false
+      cleanOnceBeforeBuildPatterns: [utils.resolve('./dist')],
+      // cleanAfterEveryBuildPatterns: [],
     }),
 
     new MiniCssExtractPlugin({
