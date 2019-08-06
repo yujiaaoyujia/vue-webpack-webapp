@@ -57,16 +57,28 @@ module.exports = merge(baseConfig, {
       name: true,
       cacheGroups: {
         commons: {
-          minChunks: 2,
-          priority: -20,
           name: 'common',
+          minChunks: 2,
           reuseExistingChunk: true,
+          priority: -30,
         },
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
-          priority: -10
-        }
+          priority: -20,
+          // name(module) {
+          //   // get the name. E.g. node_modules/packageName/not/this/part.js
+          //   // or node_modules/packageName
+          //   const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+          //   // npm package names are URL-safe, but some servers don't like @ symbols
+          //   return `npm.${packageName.replace('@', '')}`
+          // },
+        },
+        // library: {
+        //   test: /[\\/]node_modules[\\/][_@]*(echarts|zrender)/,
+        //   name: module => module.context.match(/echarts|zrender/)[0],
+        //   priority: -10,
+        // },
       }
     },
   },
@@ -98,6 +110,9 @@ module.exports = merge(baseConfig, {
     // 避免组件全量打包(moment.js) 二者取其一即可
     // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
     // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+    // 打包排除 mock
+    new webpack.IgnorePlugin(/\.\/mock/),
 
     new CleanWebpackPlugin(['dist'], {
       root: utils.resolve('./'),

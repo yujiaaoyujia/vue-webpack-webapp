@@ -1,0 +1,7 @@
+{
+	"success": true,
+	"data": {
+		"test": "Hello Mock !"
+	},
+	"message": "获取JSON失败，请稍后再试。"
+}

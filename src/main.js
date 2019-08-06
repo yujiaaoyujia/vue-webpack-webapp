@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import store from './store'
 import router from './router'
-import { i18n, loadLanguage } from './lang'
 import App from './App'
 
 // 引入全局样式
@@ -32,7 +31,7 @@ Object.keys(directive).forEach(k => Vue.directive(k, directive[k]))
 // 全局守卫
 router.beforeEach((to, from, next) => {
   // 根据路由meta设置title
-  const title = i18n.t(to.meta.title) || document.title
+  const title = to.meta.title || document.title
   jdy.setTitle(title)
   next()
 })
@@ -40,19 +39,20 @@ router.beforeEach((to, from, next) => {
 // 全局后置钩子
 // router.afterEach((to, from) => {})
 
-// 获取语言包以后再初始化
-loadLanguage().then(() => {
-  // 云之家jsbridge
-  initQingConfig()
+// 云之家jsbridge
+initQingConfig()
 
-  // 创建vue实例
-  /* eslint-disable no-new */
-  new Vue({
-    el: '#app',
-    i18n,
-    store,
-    router,
-    template: '<App/>',
-    components: { App }
-  })
+// 创建vue实例
+const app = new Vue({
+  store,
+  router,
+  template: '<App/>',
+  components: { App }
 })
+
+// 手动挂载实例
+if (process.env.MOCK === true) {
+  import(/* webpackChunkName: "mock" */ './mock').then(() => app.$mount('#app')) // 异步加载 mock
+} else {
+  app.$mount('#app')
+}
