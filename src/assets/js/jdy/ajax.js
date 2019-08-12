@@ -47,7 +47,9 @@ export function ajax(opts) {
     const cache = cachekey ? session(cachekey) : null
     const done = (res) => {
       // 关闭接口动画
-      window.ajaxLoading.pop()
+      if (!opts.noAjaxLoading) {
+        window.ajaxLoading.pop()
+      }
       if (!opts.noLoading) {
         showLoading.pop()
         if (showLoading.length <= 0) {
@@ -79,7 +81,9 @@ export function ajax(opts) {
     }
 
     // 调用接口动画
-    window.ajaxLoading.push(1)
+    if (!opts.noAjaxLoading) {
+      window.ajaxLoading.push(1)
+    }
     if (!opts.noLoading) {
       showLoading.push(1)
       loading.show()
@@ -130,7 +134,9 @@ export function ajax(opts) {
       timeout: opts.timeout || 30000
     }).then(done).catch((err) => {
       // 关闭接口动画
-      window.ajaxLoading.pop()
+      if (!opts.noAjaxLoading) {
+        window.ajaxLoading.pop()
+      }
       if (!opts.noLoading) {
         showLoading.pop()
         if (showLoading.length <= 0) {
@@ -188,9 +194,9 @@ export function urlPost(url, data = {}, opts = {}) {
   opts = Object.assign(opts, {
     url,
     data,
-    // headers: {'content-type': 'application/x-www-form-urlencoded;charset=utf-8'},
+    // headers: { 'content-type': 'application/x-www-form-urlencoded;charset=utf-8' },
     // headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    // headers: {'content-type': 'multipart/form-data'},
+    // headers: { 'content-type': 'multipart/form-data' },
     headers: { 'content-type': 'application/json' },
     method: 'post'
   })
@@ -227,9 +233,9 @@ export function post(url, data = {}, opts = {}) {
   opts = Object.assign(opts, {
     url,
     data,
-    // headers: {'content-type': 'application/x-www-form-urlencoded;charset=utf-8'},
+    // headers: { 'content-type': 'application/x-www-form-urlencoded;charset=utf-8' },
     // headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    // headers: {'content-type': 'multipart/form-data'},
+    // headers: { 'content-type': 'multipart/form-data' },
     headers: { 'content-type': 'application/json' },
     method: 'post'
   })
