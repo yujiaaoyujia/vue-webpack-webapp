@@ -95,8 +95,9 @@ const active = {
     const value = binding.value || 'active'
     const touchStart = (event) => {
       event.stopPropagation()
-      const noPrevent = event.target.className.indexOf('no-prevent')
-      if (noPrevent !== -1) {
+      const eventClass = event.target.className || ''
+      const noPrevent = eventClass.indexOf && eventClass.indexOf('no-prevent')
+      if (noPrevent >= 0) {
         return false
       }
 
@@ -110,8 +111,9 @@ const active = {
 
     const touchEnd = (event) => {
       event.stopPropagation()
-      const noPrevent = event.target.className.indexOf('no-prevent')
-      if (noPrevent !== -1) {
+      const eventClass = event.target.className || ''
+      const noPrevent = eventClass.indexOf && eventClass.indexOf('no-prevent')
+      if (noPrevent >= 0) {
         return false
       }
 

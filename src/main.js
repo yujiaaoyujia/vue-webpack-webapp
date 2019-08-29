@@ -39,9 +39,6 @@ router.beforeEach((to, from, next) => {
 // 全局后置钩子
 // router.afterEach((to, from) => {})
 
-// 云之家jsbridge
-initQingConfig()
-
 // 创建vue实例
 const app = new Vue({
   store,
@@ -50,9 +47,15 @@ const app = new Vue({
   components: { App }
 })
 
-// 手动挂载实例
-if (process.env.MOCK === true) {
-  import(/* webpackChunkName: "mock" */ './mock').then(() => app.$mount('#app')) // 异步加载 mock
-} else {
+// 手动挂载实例到 app
+function mountApp() {
+  initQingConfig()
   app.$mount('#app')
+}
+
+// 根据环境异步加载 mock
+if (process.env.MOCK === true) {
+  import(/* webpackChunkName: "mock" */ './mock').then(() => mountApp())
+} else {
+  mountApp()
 }

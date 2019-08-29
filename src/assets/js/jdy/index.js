@@ -3,7 +3,7 @@ import { device, isWeiXin, isYzjApp, isAndroid, isIOS, isMobile } from './env'
 import { getParam, setParam, delParam, setObj, getRootPath } from './location'
 import setTitle from './hack'
 import cookie from './cookie'
-import { pureStore, store, pureSession, session } from './storage'
+import { pureStore, store, pureSession, session, removeStoragesByKeyContains } from './storage'
 import { msg, toast, loading } from './ui'
 import { ajax, urlGet, urlPost, get, post, xhrs, params, upParams } from './ajax'
 
@@ -38,6 +38,7 @@ export default {
   store,
   pureSession,
   session,
+  removeStoragesByKeyContains,
 
   // UI 组件
   msg,
