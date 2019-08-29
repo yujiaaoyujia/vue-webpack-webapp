@@ -39,18 +39,19 @@ router.beforeEach((to, from, next) => {
 // 全局后置钩子
 // router.afterEach((to, from) => {})
 
-// 创建vue实例
-const app = new Vue({
+// 初始化vue实例配置
+const app = {
+  el: '#app',
   store,
   router,
   template: '<App/>',
   components: { App }
-})
+}
 
-// 手动挂载实例到 app
+// 创建并挂载 vue 实例
 function mountApp() {
   initQingConfig()
-  app.$mount('#app')
+  new Vue(app) // eslint-disable-line no-new
 }
 
 // 根据环境异步加载 mock
