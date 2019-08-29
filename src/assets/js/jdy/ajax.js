@@ -41,6 +41,7 @@ const showLoading = []
 export function ajax(opts) {
   upParams()
   opts.params = Object.assign({}, params, opts.params)
+  opts.timeoutLimit = opts.timeoutLimit || 3 // 允许超时请求次数上限 (1-无超时重新请求)
 
   return new Promise((resolve, reject) => {
     const cachekey = opts.cachekey
@@ -144,6 +145,18 @@ export function ajax(opts) {
         }
       }
 
+      // 请求超时处理
+      if (err.code === 'ECONNABORTED') {
+        opts.timeoutCount = (opts.timeoutCount || 0) + 1 // 记录请求超时次数
+        if (opts.timeoutCount < opts.timeoutLimit) {
+          console.log(`请求超时(${opts.timeoutCount}次): [${err}]`)
+          ajax(opts).then(() => {
+            resolve()
+          }).catch(() => {})
+          return
+        }
+      }
+
       if (err.response) {
         // 存在请求，但是服务器的返回一个状态码，都在 2xx 之外
         console.log(err.response.data)
@@ -153,15 +166,6 @@ export function ajax(opts) {
         // 一些错误是在设置请求时触发的
         console.log('Error', err.message)
       }
-
-      // // 请求超时处理
-      // if (err.code === 'ECONNABORTED') {
-      //   console.log('请求超时: [' + err + ']')
-      //   ajax(opts).then(() => {
-      //     resolve()
-      //   }).catch(() => {})
-      //   return
-      // }
 
       if (opts.error) {
         opts.error(err)

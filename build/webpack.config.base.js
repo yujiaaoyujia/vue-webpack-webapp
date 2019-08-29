@@ -2,7 +2,8 @@
 
 const config = require('./config')
 const utils = require('./utils')
-const webpack = require('webpack')
+// const webpack = require('webpack')
+const EslintFriendlyFormatter = require('eslint-friendly-formatter')
 const { VueLoaderPlugin } = require('vue-loader')
 
 const createLintingRule = () => ({
@@ -14,7 +15,7 @@ const createLintingRule = () => ({
     utils.resolve('test')
   ],
   options: {
-    formatter: require('eslint-friendly-formatter'),
+    formatter: EslintFriendlyFormatter,
     emitWarning: !config.dev.showEslintErrorsInOverlay
   }
 })

@@ -1,48 +1,5 @@
 import config from './config'
 
-// 删除 key 值中包含所给字符的缓存
-export function removeStoragesByKeyContains(str, type) {
-  const storage = window[type || 'sessionStorage']
-  let len = storage.length
-  let key
-
-  // 如果不支持本地缓存，很可能是启用了『无痕模式』
-  if (!storage) {
-    // alert('为了能享受更好的服务，请关闭浏览器的无痕模式！')
-    return
-  }
-
-  while (len) {
-    len--
-    key = storage.key(len)
-    if (key.indexOf(str) !== -1) {
-      storage.removeItem(key)
-    }
-  }
-}
-
-// 删除除了所给 key 值的缓存，参数格式：'key1|key2|key3'
-export function removeStoragesBut(keys, type) {
-  keys = keys.split('|')
-  const storage = window[type || 'localStorage']
-  let len = storage.length
-  let key
-
-  // 如果不支持本地缓存，很可能是启用了『无痕模式』
-  if (!storage) {
-    // alert('为了能享受更好的服务，请关闭浏览器的无痕模式！')
-    return
-  }
-
-  while (len) {
-    len--
-    key = storage.key(len)
-    if (keys.indexOf(key) === -1) {
-      storage.removeItem(key)
-    }
-  }
-}
-
 // 数据存储（注意此方式存储经过了 JSON 解析，会还原原数据类型）
 function storage(type, key, val) {
   // 如果不支持本地缓存，很可能是启用了『无痕模式』
@@ -75,7 +32,7 @@ function storage(type, key, val) {
       return window[type].setItem(key, JSON.stringify(val))
     } catch (e) {
       if (type === 'sessionStorage') {
-        removeStoragesByKeyContains('/', type) // 删除接口的缓存
+        window.sessionStorage.clear() // 删除缓存
       }
       return window[type].setItem(key, JSON.stringify(val))
     }
@@ -122,4 +79,61 @@ export function store(key, val) {
 
   key = prefix + key
   return storage('localStorage', key, val)
+}
+
+// 删除 key 值中包含所给字符的缓存
+export function removeStoragesByKeyContains(str, type) {
+  const storage = window[type || 'sessionStorage']
+  let storageLen = storage.length
+  let storageKey
+
+  // 如果不支持本地缓存，很可能是启用了『无痕模式』
+  if (!storage) {
+    // alert('为了能享受更好的服务，请关闭浏览器的无痕模式！')
+    return
+  }
+
+  // 获取缓存 storageGUID 前缀
+  let prefix = ''
+  const StorageAreaGUID = pureSession('StorageAreaGUID')
+  if (config.storageGUID) {
+    prefix = config.storageGUID + '-'
+  }
+  if (StorageAreaGUID) {
+    prefix = prefix + StorageAreaGUID + '-'
+  }
+
+  // 遍历缓存
+  while (storageLen) {
+    storageLen--
+    storageKey = storage.key(storageLen)
+
+    // 判断须移除 storageGUID 干扰
+    const pureKey = storageKey.replace(prefix, '')
+    if (pureKey.indexOf(str) !== -1) {
+      storage.removeItem(storageKey)
+    }
+  }
+}
+
+// 删除除了所给 key 值的缓存，参数格式：'key1|key2|key3'
+export function removeStoragesBut(keys, type) {
+  keys = keys.split('|')
+  const storage = window[type || 'localStorage']
+  let len = storage.length
+  let key
+
+  // 如果不支持本地缓存，很可能是启用了『无痕模式』
+  if (!storage) {
+    // alert('为了能享受更好的服务，请关闭浏览器的无痕模式！')
+    return
+  }
+
+  while (len) {
+    len--
+    key = storage.key(len)
+    if (keys.indexOf(key) === -1) {
+      storage.removeItem(key)
+    }
+  }
 }

@@ -102,16 +102,17 @@ module.exports = merge(baseConfig, {
     ]
   },
   plugins: [
+    // 打包排除 mock
+    ...(process.env.MOCK ? [] : [new webpack.IgnorePlugin(/\.\/mock/)]),
+
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env.MOCK': process.env.MOCK,
     }),
 
     // 避免组件全量打包(moment.js) 二者取其一即可
     // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
     // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-
-    // 打包排除 mock
-    new webpack.IgnorePlugin(/\.\/mock/),
 
     new CleanWebpackPlugin({
       dry: false,

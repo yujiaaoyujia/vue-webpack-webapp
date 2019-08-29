@@ -1,11 +1,19 @@
 import { Toast } from 'vant'
 
 const toast = Toast
-// toast.allowMultiple()
+toast.allowMultiple() // 允许同时弹出toast
 
 const loading = {
+  instance: {}, // toast实例
+  opened: false,
   show() {
-    toast({
+    // loading基于toast，须特殊处理使其全局只有一个
+    if (this.opened) {
+      return
+    }
+
+    this.opened = true
+    this.instance = toast({
       type: 'loading',
       forbidClick: true,
       duration: 0,
@@ -13,7 +21,10 @@ const loading = {
     })
   },
   hide() {
-    toast.clear()
+    if (this.opened) {
+      this.instance.clear()
+      this.opened = false
+    }
   },
 }
 
@@ -30,9 +41,7 @@ export function lazyStart() {
   return new Promise(resolve => resolve(loading.show()))
 }
 export function lazyEnd() {
-  return setTimeout(() => {
-    loading.hide()
-  }, 0)
+  loading.hide()
 }
 
 export { toast, loading }
