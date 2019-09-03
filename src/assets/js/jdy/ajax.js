@@ -40,7 +40,7 @@ const showLoading = []
 // Ajax 请求封装
 export function ajax(opts) {
   upParams()
-  opts.params = Object.assign({}, params, opts.params)
+  opts.params = { ...params, ...opts.params }
   opts.timeoutLimit = opts.timeoutLimit || 3 // 允许超时请求次数上限 (1-无超时重新请求)
 
   return new Promise((resolve, reject) => {

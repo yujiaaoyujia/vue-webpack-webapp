@@ -38,7 +38,7 @@ export function msg(message, duration) {
 
 // 路由懒加载 加载动画
 export function lazyStart() {
-  return new Promise(resolve => resolve(loading.show()))
+  return new Promise((resolve) => resolve(loading.show()))
 }
 export function lazyEnd() {
   loading.hide()
