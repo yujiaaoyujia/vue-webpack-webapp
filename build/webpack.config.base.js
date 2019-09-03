@@ -22,7 +22,7 @@ const createLintingRule = () => ({
 
 module.exports = {
   entry: {
-    app: ['babel-polyfill', './src/main.js']
+    app: ['./src/main.js']
   },
   output: {
     filename: '[name].js',
@@ -54,7 +54,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            compact: 'false'
+            compact: false
           }
         }
       }, {

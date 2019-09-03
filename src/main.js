@@ -24,9 +24,9 @@ Vue.config.productionTip = false
 // }
 
 // 定义 vue 过滤器
-Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))
+Object.keys(filters).forEach((k) => Vue.filter(k, filters[k]))
 // 定义 vue 自定义指令
-Object.keys(directive).forEach(k => Vue.directive(k, directive[k]))
+Object.keys(directive).forEach((k) => Vue.directive(k, directive[k]))
 
 // 全局守卫
 router.beforeEach((to, from, next) => {
