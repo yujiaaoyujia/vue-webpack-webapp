@@ -1,6 +1,7 @@
 const handler = require('serve-handler')
 const http = require('http')
 const os = require('os')
+const portfinder = require('portfinder')
 
 // 配置
 const config = {
@@ -22,6 +23,22 @@ function getIpAddress() {
   return ipAddress
 }
 
+// 检测可用端口Port
+function getPort() {
+  return new Promise((resolve, reject) => {
+    portfinder.getPortPromise({
+      port: process.env.PORT || config.port
+    }).then((port) => {
+      // publish the new Port, necessary for e2e tests
+      process.env.PORT = port
+      config.port = port
+      resolve(port)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
 const server = http.createServer((request, response) => (
   // You pass two more arguments for config and middleware
   // More details here: https://github.com/zeit/serve-handler#options
@@ -40,7 +57,11 @@ const server = http.createServer((request, response) => (
 
 // 开始 http 服务器
 // More details here: https://nodejs.org/api/net.html#net_server_listen
-server.listen(config.port, () => {
-  const ipAddress = getIpAddress()
-  console.log(`Server has started. Running on http://${ipAddress}:${config.port}`)
+const ipAddress = getIpAddress()
+getPort().then((port) => {
+  server.listen(port, () => {
+    console.log(`Server has started. Running on http://${ipAddress}:${port}`)
+  })
+}).catch((err) => {
+  console.log(`Error occured: ${err}`)
 })
