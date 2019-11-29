@@ -57,5 +57,11 @@ typings/
 # dotenv environment variables file
 .env
 
+# Vscode config
+.vscode
+
 # built files
 dist
+
+# Test examples
+cypress

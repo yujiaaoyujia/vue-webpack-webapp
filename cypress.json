@@ -1,0 +1,6 @@
+{
+  "baseUrl": "http://localhost:5000",
+  "viewportHeight": 667,
+  "viewportWidth": 375,
+  "pluginsFile": "tests/e2e/plugins/index.js"
+}
