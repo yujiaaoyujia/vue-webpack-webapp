@@ -63,5 +63,6 @@ typings/
 # built files
 dist
 
-# Test examples
+# Test examples or output
+.nyc_output
 cypress
