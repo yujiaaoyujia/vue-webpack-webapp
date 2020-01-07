@@ -9,7 +9,8 @@
     "dist": "cross-env NODE_ENV=production webpack --config build/webpack.config.prod.js",
     "build": "node build/build.js",
     "build:mock": "cross-env MOCK=true node build/build.js",
-    "server": "node build/server.js"
+    "server": "node build/server.js",
+    "e2e": "cypress open"
   },
   "keywords": [
     "Vue",
@@ -46,11 +47,13 @@
     "copy-webpack-plugin": "^5.0.4",
     "cross-env": "^5.2.0",
     "css-loader": "^3.1.0",
+    "cypress": "^3.7.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-import-resolver-webpack": "^0.11.1",
     "eslint-loader": "^3.0.0",
+    "eslint-plugin-cypress": "^2.7.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",

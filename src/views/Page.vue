@@ -1,6 +1,7 @@
 <template>
   <article class="page">
-    Page
+    <p>Page</p>
+    <input type="text" placeholder="input" >
   </article>
 </template>
 
