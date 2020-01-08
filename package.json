@@ -10,7 +10,11 @@
     "build": "node build/build.js",
     "build:mock": "cross-env MOCK=true node build/build.js",
     "server": "node build/server.js",
-    "e2e": "cypress open"
+    "mocha": "mochapack --webpack-config build/webpack.config.test.js --require tests/mocha/setup.js --glob *.test.js tests/mocha --recursive --watch",
+    "mocha:nyc": "nyc --reporter=lcov --reporter=text mochapack --webpack-config build/webpack.config.test.js --require tests/mocha/setup.js --glob *.test.js tests/mocha --recursive",
+    "cypress": "cypress open",
+    "test:unit": "npm run mocha",
+    "test:e2e": "npm run cypress"
   },
   "keywords": [
     "Vue",
@@ -38,6 +42,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
+    "@vue/test-utils": "1.0.0-beta.29",
     "autoprefixer": "^9.6.1",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
@@ -58,13 +63,20 @@
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-vue": "^5.2.3",
+    "expect": "^24.9.0",
     "exports-loader": "^0.7.0",
     "file-loader": "^4.1.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
+    "istanbul-instrumenter-loader": "^3.0.1",
+    "jsdom": "^15.2.1",
+    "jsdom-global": "^3.0.2",
     "mini-css-extract-plugin": "^0.8.0",
+    "mocha": "^6.2.2",
+    "mochapack": "^1.1.13",
     "mockjs": "^1.0.1-beta3",
     "node-notifier": "^5.4.1",
+    "nyc": "^11.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "ora": "^3.4.0",
     "portfinder": "^1.0.21",
@@ -88,7 +100,16 @@
     "webpack": "4.39.1",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2",
-    "webpack-merge": "^4.2.1"
+    "webpack-merge": "^4.2.1",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "nyc": {
+    "include": [
+      "tests/mocha"
+    ],
+    "exclude": [
+      "tests/mocha/setup.js"
+    ]
   },
   "browserslist": [
     "> 1%",
