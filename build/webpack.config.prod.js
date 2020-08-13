@@ -86,14 +86,14 @@ module.exports = merge(baseConfig, {
       {
         test: /\.css?$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          { loader: MiniCssExtractPlugin.loader, options: { publicPath: '../../' } },
           'css-loader',
           'postcss-loader'
         ]
       }, {
         test: /\.styl(us)?$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          { loader: MiniCssExtractPlugin.loader, options: { publicPath: '../../' } },
           'css-loader',
           'postcss-loader',
           'stylus-loader'
