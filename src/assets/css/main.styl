@@ -13,7 +13,7 @@ body,
 body {
   margin: 0 auto
   max-width: 1024px
-  font-family: PingFangSC-Regular, '微软雅黑', 'Microsoft YaHei', Helvetica, STHeiTi, Sans-serif
+  font-family: PingFangSC-Regular, '微软雅黑', 'Microsoft YaHei', Helvetica, STHeiTi, sans-serif
   line-height: 1.5
   font-size: .28rem
   background: $silver
@@ -23,13 +23,12 @@ body {
   outline: 0
   overflow-x: hidden
   -webkit-user-select: none
-  /* -webkit-overflow-scrolling: touch */
+  // -webkit-overflow-scrolling: touch
 }
 
 #app {
   position: relative
 }
-
 
 // ======================================================================
 // 隐藏 vue 未编译的 Mustache 标签
@@ -57,12 +56,15 @@ input {
   &::-webkit-input-placeholder {
     color: $placeholder
   }
+
   &::-moz-placeholder {
     color: $placeholder
   }
+
   &:-moz-placeholder {
     color: $placeholder
   }
+
   &:-ms-input-placeholder {
     color: $placeholder
   }
@@ -80,15 +82,19 @@ input {
   left: 0
   right: 0
 }
+
 .slide-right-enter {
   transform: translateX(-100%)
 }
+
 .slide-right-leave-active {
   transform: translateX(100%)
 }
+
 .slide-left-enter {
   transform: translateX(100%)
 }
+
 .slide-left-leave-active {
   transform: translateX(-100%)
 }
@@ -98,9 +104,11 @@ input {
   will-change: opacity
   transition: all 300ms
 }
+
 .fade-enter {
   opacity: 0
 }
+
 .fade-leave-active {
   display: none
 }
@@ -110,6 +118,7 @@ input {
   will-change: opacity
   transition: all 300ms
 }
+
 .fade-all-enter,
 .fade-all-leave-active {
   opacity: 0
@@ -122,11 +131,13 @@ input {
   will-change: transform, opacity
   transition: all 300ms
 }
+
 .fade-up-enter,
 .fade-up-leave-active {
   transform: translateY(100%)
   opacity: 0
 }
+
 .fade-down-enter,
 .fade-down-leave-active {
   transform: translateY(-100%)
@@ -138,10 +149,12 @@ input {
   will-change: transform, opacity
   transition: all 300ms
 }
+
 .slide-enter {
   transform: translateX(.3rem)
   opacity: 0
 }
+
 .slide-leave-active {
   display: none
 }
@@ -151,10 +164,12 @@ input {
   will-change: transform, opacity
   transition: all 300ms
 }
+
 .slide-all-enter,
 .slide-all-leave-active {
   transform: translateX(.3rem)
   opacity: 0
+
   &.t-reverse {
     transform: translateX(-.3rem)
   }
@@ -167,10 +182,12 @@ input {
   will-change: transform
   transition: all 300ms
 }
+
 .slide-up-enter,
 .slide-up-leave-active {
   transform: translateY(100%)
 }
+
 .slide-down-enter,
 .slide-down-leave-active {
   transform: translateY(-100%)
@@ -179,36 +196,42 @@ input {
 .bounce-enter-active {
   animation: bounce 300ms
 }
+
 .bounce-leave-enter,
 .bounce-leave-active {
   display: none
 }
+
 .bounce-all-enter-active {
   will-change: transform, opacity
   animation: bounce 300ms
 }
+
 .bounce-all-enter {
   transform: scale(1)
 }
+
 .bounce-all-leave-active {
   will-change: transform, opacity
   transition: all 200ms
   transform: scale(0)
   opacity: 0
 }
+
 @keyframes bounce {
-  0% {transform: scale(0)}
-  50% {transform: scale(1.2)}
-  100% {transform: scale(1)}
+  0% { transform: scale(0) }
+  50% { transform: scale(1.2) }
+  100% { transform: scale(1) }
 }
 
 .zoom-y-enter-active,
 .zoom-y-leave-active {
   will-change: transform, opacity
   transition: all 300ms
-  transform: scaleY(1.0)
+  transform: scaleY(1)
   transform-origin: top
 }
+
 .zoom-y-enter,
 .zoom-y-leave-active {
   transform: scaleY(0)
@@ -223,25 +246,31 @@ input {
     height: 100%
   }
 }
+
 .hairlines-bg {
   background: $solid-gray svg(retina-square param(--color $white))
 }
 
 @svg retina-border {
   height: 2px
+
   @rect {
     fill: var(--color, black)
     width: 100%
     height: 50%
   }
 }
-.hairlines-top, .hairlines-bottom {
+
+.hairlines-top,
+.hairlines-bottom {
   border-image: svg(retina-border param(--color $solid-gray)) 1 stretch
 }
+
 .hairlines-top {
   border-top: 1px solid transparent
   border-image-slice: 100% 0 0 0
 }
+
 .hairlines-bottom {
   border-bottom: 1px solid transparent
   border-image-slice: 0 0 100% 0
@@ -251,13 +280,11 @@ input {
 // 通用样式
 // ======================================================================
 
-
-
 // ======================================================================
 // 模块
 // ======================================================================
 
-/* 单个右箭 */
+// 单个右箭
 .m-arrow-right {
   width: .2rem
   height: .2rem
@@ -265,6 +292,7 @@ input {
   border-left: none
   border-bottom: none
   transform: rotate(45deg)
+
   &.down {
     transform: rotate(135deg) translate(-.03rem, .03rem)
   }
