@@ -5,7 +5,7 @@ const baseConfig = require('./webpack.config.base')
 const utils = require('./utils')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -28,10 +28,11 @@ module.exports = merge(baseConfig, {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         sourceMap: config.build.productionSourceMap,
         parallel: true,
-        uglifyOptions: {
+        extractComments: false,
+        terserOptions: {
           warnings: false,
           compress: {},
         },
@@ -122,7 +123,8 @@ module.exports = merge(baseConfig, {
     }),
 
     new MiniCssExtractPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash:7].css')
+      filename: utils.assetsPath('css/[name].[contenthash:7].css'),
+      ignoreOrder: true, // Enable to remove warnings about conflicting order
     }),
 
     // generate dist index.html with correct asset hash for caching.

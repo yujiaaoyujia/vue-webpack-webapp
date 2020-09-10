@@ -15,7 +15,7 @@ const devWebpackConfig = merge(baseConfig, {
   devServer: {
     clientLogLevel: 'warning',
     hot: true,
-    contentBase: 'dist',
+    contentBase: './dist',
     compress: true,
     host: process.env.HOST || config.dev.host,
     port: process.env.PORT || config.dev.port,
