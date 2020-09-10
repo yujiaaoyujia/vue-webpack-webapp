@@ -61,7 +61,7 @@ const longtap = {
     el.addEventListener('touchstart', touchStart, { passive: true })
     el.addEventListener('touchmove', touchMove, { passive: true })
     el.addEventListener('touchend', touchEnd, { passive: false })
-  }
+  },
 }
 
 // 右键菜单事件 v-menu
@@ -86,7 +86,7 @@ const menu = {
         }
       }, { passive: false })
     }
-  }
+  },
 }
 
 // css:active扩充, 触发时添加指定类名 v-active
@@ -128,7 +128,7 @@ const active = {
     el.addEventListener('mousedown', touchStart, { passive: true })
     el.addEventListener('touchend', touchEnd, { passive: true })
     window.addEventListener('mouseup', touchEnd, { passive: true })
-  }
+  },
 }
 
 export default {

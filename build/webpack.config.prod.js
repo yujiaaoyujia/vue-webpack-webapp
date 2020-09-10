@@ -99,6 +99,23 @@ module.exports = merge(baseConfig, {
           'postcss-loader',
           'stylus-loader'
         ]
+      }, {
+        test: /\.less$/,
+        use: [
+          { loader: MiniCssExtractPlugin.loader, options: { publicPath: '../../' } },
+          'css-loader',
+          'postcss-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                modifyVars: {
+                  hack: `true; @import "${utils.resolve('src/assets/css/vant.less')}";`
+                }
+              }
+            }
+          }
+        ]
       }
     ]
   },

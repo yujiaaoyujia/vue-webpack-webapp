@@ -10,23 +10,23 @@ export default {
   props: {
     value: {
       required: true,
-      default: 0
+      default: 0,
     },
     max: {
-      default: 0
+      default: 0,
     },
     format: {
-      type: Function
+      type: Function,
     },
     duration: {
       type: Number,
-      default: 500
-    }
+      default: 500,
+    },
   },
 
   data() {
     return {
-      tweeningValue: 0
+      tweeningValue: 0,
     }
   },
 
@@ -36,17 +36,17 @@ export default {
         return this.format(this.tweeningValue)
       }
       return this.tweeningValue
-    }
-  },
-
-  mounted() {
-    this.tween(0, this.value)
+    },
   },
 
   watch: {
     value(newValue, oldValue) {
       this.tween(oldValue, newValue)
-    }
+    },
+  },
+
+  mounted() {
+    this.tween(0, this.value)
   },
 
   methods: {
@@ -85,7 +85,7 @@ export default {
         .start()
 
       return this.animate()
-    }
-  }
+    },
+  },
 }
 </script>

@@ -55,10 +55,10 @@ module.exports = {
     'import/no-cycle': 'off', // 禁止import引入产生递归
     'semi': ['error', 'never'], // 要求或禁止使用分号代替 ASI
     'comma-dangle': ['error', { // 要求或禁止末尾逗号
-      arrays: 'only-multiline',
-      objects: 'only-multiline',
-      imports: 'only-multiline',
-      exports: 'only-multiline',
+      arrays: 'always-multiline',
+      objects: 'always-multiline',
+      imports: 'always-multiline',
+      exports: 'always-multiline',
       functions: 'only-multiline',
     }],
     'prefer-template': 'off', // 要求使用模板字面量而非字符串连接

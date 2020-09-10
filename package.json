@@ -71,6 +71,8 @@
     "istanbul-instrumenter-loader": "^3.0.1",
     "jsdom": "^15.2.1",
     "jsdom-global": "^3.0.2",
+    "less": "^3.12.2",
+    "less-loader": "^7.0.1",
     "mini-css-extract-plugin": "^0.8.0",
     "mocha": "^6.2.2",
     "mochapack": "^1.1.13",

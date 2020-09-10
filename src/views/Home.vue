@@ -8,31 +8,15 @@
 <script>
 import jdy from '../assets/js/jdy'
 import AnimatedInteger from '../components/AnimatedInteger'
-// 异步组件
-// const HomeAdd = () => import(/* webpackChunkName: "HomeAdd" */ '../components/HomeAdd')
 
 export default {
   name: 'Home',
-  data() {
-    return {
-
-    }
-  },
-
-  computed: {
-
+  components: {
+    AnimatedInteger,
   },
 
   created() {
     this.getJson()
-  },
-
-  mounted() {
-
-  },
-
-  activated() {
-
   },
 
   methods: {
@@ -47,13 +31,9 @@ export default {
         },
         error: () => {
           // jdy.msg('获取JSON失败，请检查网络设置。')
-        }
+        },
       })
     },
-  },
-
-  components: {
-    AnimatedInteger
   },
 }
 </script>

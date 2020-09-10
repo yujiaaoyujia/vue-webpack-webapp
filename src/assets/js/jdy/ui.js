@@ -1,6 +1,7 @@
-import { Toast } from 'vant'
+import { Toast, Dialog } from 'vant'
 
 const toast = Toast
+const dialog = Dialog
 toast.allowMultiple() // 允许同时弹出toast
 
 const loading = {
@@ -32,7 +33,7 @@ export function msg(message, duration) {
   return toast({
     message,
     position: 'bottom',
-    duration: +duration === 0 ? 0 : (duration || 2000)
+    duration: +duration === 0 ? 0 : (duration || 2000),
   })
 }
 
@@ -44,4 +45,4 @@ export function lazyEnd() {
   loading.hide()
 }
 
-export { toast, loading }
+export { toast, dialog, loading }

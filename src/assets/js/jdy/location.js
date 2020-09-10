@@ -131,7 +131,7 @@ export function parseHash(hash) {
     hash,
     tag,
     query,
-    param
+    param,
   }
 }
 

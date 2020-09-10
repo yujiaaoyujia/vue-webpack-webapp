@@ -49,6 +49,23 @@ const devWebpackConfig = merge(baseConfig, {
           'postcss-loader',
           'stylus-loader'
         ]
+      }, {
+        test: /\.less$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'postcss-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                modifyVars: {
+                  hack: `true; @import "${utils.resolve('src/assets/css/vant.less')}";`
+                }
+              }
+            }
+          }
+        ]
       }
     ]
   },
