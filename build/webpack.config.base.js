@@ -5,6 +5,7 @@ const utils = require('./utils')
 // const webpack = require('webpack')
 const EslintFriendlyFormatter = require('eslint-friendly-formatter')
 const { VueLoaderPlugin } = require('vue-loader')
+const StylelintPlugin = require('stylelint-webpack-plugin')
 
 const createLintingRule = () => ({
   test: /\.(js|vue)$/,
@@ -90,5 +91,15 @@ module.exports = {
 
   plugins: [
     new VueLoaderPlugin(),
+
+    new StylelintPlugin({
+      context: 'src',
+      files: [
+        '**/*.vue',
+        '**/*.styl',
+        // '**/*.s?(a|c)ss',
+      ],
+      customSyntax: 'stylelint-plugin-stylus/custom-syntax',
+    }),
   ]
 }

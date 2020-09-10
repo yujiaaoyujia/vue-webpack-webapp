@@ -48,7 +48,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import '../assets/css/var.styl'
-.page {}
+
 .page-count {
   margin-top: 20px
 }

@@ -44,7 +44,7 @@ export default {
 
 <style lang="stylus" scoped>
 .counter {
-  test-align: center
+  text-align: center
 }
 
 </style>
