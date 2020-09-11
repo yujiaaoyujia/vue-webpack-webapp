@@ -73,7 +73,7 @@ export function setPopMenu(option = {}) {
       popTitleCallBackId: '',
       items: [],
       menuList: [],
-      shareData: shareCfg
+      shareData: shareCfg,
     }
 
     option.shareData = popOption.shareData
@@ -83,7 +83,7 @@ export function setPopMenu(option = {}) {
       popOption.items = option.items.map(
         (item, index) => ({
           text: item.title,
-          callBackId: 'callback' + index
+          callBackId: 'callback' + index,
         })
       )
     }
@@ -111,7 +111,7 @@ export function setPopMenu(option = {}) {
             }
           })
         }
-      }
+      },
     }))
   }
 }
@@ -126,12 +126,12 @@ export function getPersonInfo() {
         },
         error: (err) => {
           reject(err)
-        }
+        },
       })
     } else {
       reject({
         success: 'false',
-        error: '当前webview不支持云之家jsBridge'
+        error: '当前webview不支持云之家jsBridge',
       })
     }
   })
@@ -141,7 +141,7 @@ export function getPersonInfo() {
 export function rotateUI(orientation) {
   if (isBridge) {
     qing.call('rotateUI', {
-      orientation: orientation || 'landscape' // landscape|portrait
+      orientation: orientation || 'landscape', // landscape|portrait
     })
   }
 }

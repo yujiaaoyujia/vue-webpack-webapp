@@ -132,7 +132,7 @@ export function ajax(opts) {
       // withCredentials: true, // 指示是否跨站点访问控制请求，允许携带cookie
 
       // 指定请求超时之前的毫秒数
-      timeout: opts.timeout || 30000
+      timeout: opts.timeout || 30000,
     }).then(done).catch((err) => {
       // 关闭接口动画
       if (!opts.noAjaxLoading) {
@@ -184,7 +184,7 @@ export function urlGet(url, params = {}, opts = {}) {
   opts = Object.assign(opts, {
     url,
     params,
-    method: 'get'
+    method: 'get',
   })
 
   return ajax(opts)
@@ -202,7 +202,7 @@ export function urlPost(url, data = {}, opts = {}) {
     // headers: { 'content-type': 'application/x-www-form-urlencoded' },
     // headers: { 'content-type': 'multipart/form-data' },
     headers: { 'content-type': 'application/json' },
-    method: 'post'
+    method: 'post',
   })
 
   return ajax(opts)
@@ -218,7 +218,7 @@ export function get(url, params = {}, opts = {}) {
   opts = Object.assign(opts, {
     url,
     params,
-    method: 'get'
+    method: 'get',
   })
 
   return ajax(opts)
@@ -241,7 +241,7 @@ export function post(url, data = {}, opts = {}) {
     // headers: { 'content-type': 'application/x-www-form-urlencoded' },
     // headers: { 'content-type': 'multipart/form-data' },
     headers: { 'content-type': 'application/json' },
-    method: 'post'
+    method: 'post',
   })
 
   return ajax(opts)

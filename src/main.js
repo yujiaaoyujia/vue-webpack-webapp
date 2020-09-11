@@ -7,6 +7,7 @@ import App from './App'
 import './assets/js/lib/flexible'
 import './assets/css/main.styl'
 import './assets/css/vant.styl'
+// import 'vant/lib/icon/local.css'
 
 // 引入脚本
 import jdy from './assets/js/jdy'
@@ -45,7 +46,7 @@ const app = {
   store,
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
 }
 
 // 创建并挂载 vue 实例

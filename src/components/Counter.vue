@@ -10,34 +10,14 @@ export default {
   name: 'Counter',
   data() {
     return {
-      count: 0
+      count: 0,
     }
-  },
-
-  computed: {
-
-  },
-
-  created() {
-
-  },
-
-  mounted() {
-
-  },
-
-  activated() {
-
   },
 
   methods: {
     increment() {
       this.count++
-    }
-  },
-
-  components: {
-
+    },
   },
 }
 </script>
