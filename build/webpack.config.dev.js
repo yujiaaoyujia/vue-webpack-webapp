@@ -29,7 +29,7 @@ const devWebpackConfig = merge(baseConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    }
+    },
   },
 
   module: {
@@ -39,16 +39,16 @@ const devWebpackConfig = merge(baseConfig, {
         use: [
           'vue-style-loader',
           'css-loader',
-          'postcss-loader'
-        ]
+          'postcss-loader',
+        ],
       }, {
         test: /\.styl(us)?$/,
         use: [
           'vue-style-loader',
           'css-loader',
           'postcss-loader',
-          'stylus-loader'
-        ]
+          'stylus-loader',
+        ],
       }, {
         test: /\.less$/,
         use: [
@@ -60,14 +60,14 @@ const devWebpackConfig = merge(baseConfig, {
             options: {
               lessOptions: {
                 modifyVars: {
-                  hack: `true; @import "${utils.resolve('src/assets/css/vant.less')}";`
-                }
-              }
-            }
-          }
-        ]
-      }
-    ]
+                  hack: `true; @import "${utils.resolve('src/assets/css/vant.less')}";`,
+                },
+              },
+            },
+          },
+        ],
+      },
+    ],
   },
 
   plugins: [
@@ -83,9 +83,9 @@ const devWebpackConfig = merge(baseConfig, {
       filename: 'index.html',
       template: 'index.html',
       // favicon: 'favicon.png',
-      inject: true
+      inject: true,
     }),
-  ]
+  ],
 })
 
 module.exports = new Promise((resolve, reject) => {
@@ -106,7 +106,7 @@ module.exports = new Promise((resolve, reject) => {
         },
         onErrors: config.dev.notifyOnErrors
           ? utils.createNotifierCallback()
-          : undefined
+          : undefined,
       }))
 
       resolve(devWebpackConfig)

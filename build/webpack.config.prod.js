@@ -17,14 +17,14 @@ module.exports = merge(baseConfig, {
   performance: {
     hints: 'warning',
     maxEntrypointSize: 512000, // default: 250000 bytes
-    maxAssetSize: 512000 // default: 250000 bytes
+    maxAssetSize: 512000, // default: 250000 bytes
   },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     filename: utils.assetsPath('js/[name].[chunkhash:7].js'),
     path: config.build.assetsRoot,
     chunkFilename: utils.assetsPath('js/[name].[chunkhash:7].js'),
-    publicPath: config.build.assetsPublicPath
+    publicPath: config.build.assetsPublicPath,
   },
   optimization: {
     minimizer: [
@@ -42,11 +42,11 @@ module.exports = merge(baseConfig, {
       new OptimizeCSSAssetsPlugin({
         cssProcessorOptions: config.build.productionSourceMap
           ? { map: { inline: false } }
-          : {}
-      })
+          : {},
+      }),
     ],
     runtimeChunk: {
-      name: 'manifest'
+      name: 'manifest',
     },
     splitChunks: {
       chunks: 'all',
@@ -79,7 +79,7 @@ module.exports = merge(baseConfig, {
         //   name: module => module.context.match(/echarts|zrender/)[0],
         //   priority: -10,
         // },
-      }
+      },
     },
   },
   module: {
@@ -89,16 +89,16 @@ module.exports = merge(baseConfig, {
         use: [
           { loader: MiniCssExtractPlugin.loader, options: { publicPath: '../../' } },
           'css-loader',
-          'postcss-loader'
-        ]
+          'postcss-loader',
+        ],
       }, {
         test: /\.styl(us)?$/,
         use: [
           { loader: MiniCssExtractPlugin.loader, options: { publicPath: '../../' } },
           'css-loader',
           'postcss-loader',
-          'stylus-loader'
-        ]
+          'stylus-loader',
+        ],
       }, {
         test: /\.less$/,
         use: [
@@ -110,14 +110,14 @@ module.exports = merge(baseConfig, {
             options: {
               lessOptions: {
                 modifyVars: {
-                  hack: `true; @import "${utils.resolve('src/assets/css/vant.less')}";`
-                }
-              }
-            }
-          }
-        ]
-      }
-    ]
+                  hack: `true; @import "${utils.resolve('src/assets/css/vant.less')}";`,
+                },
+              },
+            },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
     // 打包排除 mock
@@ -156,12 +156,12 @@ module.exports = merge(baseConfig, {
       minify: {
         removeComments: true,
         collapseWhitespace: true,
-        removeAttributeQuotes: true
+        removeAttributeQuotes: true,
         // more options:
         // https://github.com/kangax/html-minifier#options-quick-reference
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'dependency',
     }),
 
     // keep module.id stable when vendor modules does not change
@@ -171,7 +171,7 @@ module.exports = merge(baseConfig, {
     new CopyWebpackPlugin([{
       from: utils.resolve('static'),
       to: config.build.assetsSubDirectory,
-      toType: 'dir'
-    }])
-  ]
+      toType: 'dir',
+    }]),
+  ],
 })
