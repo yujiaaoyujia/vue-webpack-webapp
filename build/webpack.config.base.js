@@ -13,23 +13,23 @@ const createLintingRule = () => ({
   enforce: 'pre',
   include: [
     utils.resolve('src'),
-    utils.resolve('test')
+    utils.resolve('test'),
   ],
   options: {
     formatter: EslintFriendlyFormatter,
-    emitWarning: !config.dev.showEslintErrorsInOverlay
-  }
+    emitWarning: !config.dev.showEslintErrorsInOverlay,
+  },
 })
 
 module.exports = {
   entry: {
-    app: ['./src/main.js']
+    app: ['./src/main.js'],
   },
   output: {
     filename: '[name].js',
     path: config.build.assetsRoot,
     chunkFilename: '[name].js',
-    publicPath: config.dev.assetsPublicPath
+    publicPath: config.dev.assetsPublicPath,
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -37,7 +37,7 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js',
       '@': utils.resolve('src'),
       '@static': utils.resolve('static'),
-    }
+    },
   },
 
   module: {
@@ -45,7 +45,7 @@ module.exports = {
       ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
-        use: 'vue-loader'
+        use: 'vue-loader',
       }, {
         test: /\.js$/,
         include: [
@@ -55,38 +55,38 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            compact: false
-          }
-        }
+            compact: false,
+          },
+        },
       }, {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            name: utils.assetsPath('img/[name].[hash:7].[ext]')
-          }
-        }
+            name: utils.assetsPath('img/[name].[hash:7].[ext]'),
+          },
+        },
       }, {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
         use: {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            name: utils.assetsPath('media/[name].[hash:7].[ext]')
-          }
-        }
+            name: utils.assetsPath('media/[name].[hash:7].[ext]'),
+          },
+        },
       }, {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         use: {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-          }
-        }
+            name: utils.assetsPath('fonts/[name].[hash:7].[ext]'),
+          },
+        },
       },
-    ]
+    ],
   },
 
   plugins: [
@@ -101,5 +101,5 @@ module.exports = {
       ],
       customSyntax: 'stylelint-plugin-stylus/custom-syntax',
     }),
-  ]
+  ],
 }

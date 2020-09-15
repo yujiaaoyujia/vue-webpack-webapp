@@ -27,7 +27,7 @@ function getIpAddress() {
 function getPort() {
   return new Promise((resolve, reject) => {
     portfinder.getPortPromise({
-      port: process.env.PORT || config.port
+      port: process.env.PORT || config.port,
     }).then((port) => {
       // publish the new Port, necessary for e2e tests
       process.env.PORT = port

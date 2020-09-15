@@ -39,7 +39,7 @@ describe('setObj', () => {
   it('Set object from the url', () => {
     expect(setObj('https://localhost:2333/index.html', {
       appid: '10990',
-      jump: 'weapp'
+      jump: 'weapp',
     })).toBe('https://localhost:2333/index.html?appid=10990&jump=weapp')
   })
 })
