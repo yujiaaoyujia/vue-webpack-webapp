@@ -1,3 +1,5 @@
+'use strict'
+
 const handler = require('serve-handler')
 const http = require('http')
 const os = require('os')
