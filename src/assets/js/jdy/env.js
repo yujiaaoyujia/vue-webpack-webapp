@@ -4,7 +4,7 @@ export const inBrowser = typeof window !== 'undefined'
 export const dpr = window.devicePixelRatio || 1
 export const UA = window.navigator.userAgent.toLowerCase()
 export const isWeiXin = /MicroMessenger/i.test(UA) // 微信
-export const isWeApp = /MicroMessenger/i.test(UA) && window.__wxjs_environment // 微信小程序
+export const isWeApp = /miniProgram/i.test(UA) || window.__wxjs_environment === 'miniprogram' // 微信小程序
 export const isWxWork = /MicroMessenger/i.test(UA) && /wxwork/i.test(UA) // 企业微信
 export const isYzjApp = /Qing\/.*;(iOS|iPhone|Android).*/i.test(UA) // 云之家
 export const isDingTalk = /DingTalk/i.test(UA) // 钉钉
