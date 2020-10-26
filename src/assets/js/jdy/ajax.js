@@ -133,6 +133,13 @@ export function ajax(opts) {
 
       // 指定请求超时之前的毫秒数
       timeout: opts.timeout || 30000,
+
+      // `auth` 表示应该使用 HTTP Basic 验证，并提供凭据
+      // 这将设置一个 `Authorization` header，覆写掉现有的任意使用 `headers` 设置的自定义 `Authorization` header
+      // auth: {
+      //   username: 'username',
+      //   password: 'password'
+      // },
     }).then(done).catch((err) => {
       // 关闭接口动画
       if (!opts.noAjaxLoading) {
@@ -245,6 +252,32 @@ export function post(url, data = {}, opts = {}) {
   })
 
   return ajax(opts)
+}
+
+// 异步请求本地链接
+export function localGet(url, data = {}) {
+  return new Promise((resolve, reject) => {
+    axios.get(url, data).then((res) => resolve(res.data)).catch((err) => reject(err))
+  })
+}
+
+// 设置全局 Authorization 凭据
+export function setAuthToken(KEY, AUTH_TOKEN) {
+  if (KEY === null) {
+    delete axios.defaults.headers.common.Authorization
+    return
+  }
+
+  if (!KEY) {
+    return
+  }
+
+  if (!AUTH_TOKEN) {
+    AUTH_TOKEN = KEY
+    KEY = config.authToken || 'Basic'
+  }
+
+  axios.defaults.headers.common.Authorization = `${KEY} ${AUTH_TOKEN}`
 }
 
 export default {
