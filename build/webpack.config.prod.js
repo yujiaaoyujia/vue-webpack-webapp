@@ -64,7 +64,14 @@ module.exports = merge(baseConfig, {
         },
         vendors: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
+          // name: 'vendor',
+          name(module) {
+            const name = module.context
+            if (name.match(/echarts|zrender/)) {
+              return 'echarts'
+            }
+            return 'vendor'
+          },
           priority: -20,
           // name(module) {
           //   // get the name. E.g. node_modules/packageName/not/this/part.js
@@ -74,11 +81,6 @@ module.exports = merge(baseConfig, {
           //   return `npm.${packageName.replace('@', '')}`
           // },
         },
-        // library: {
-        //   test: /[\\/]node_modules[\\/][_@]*(echarts|zrender)/,
-        //   name: module => module.context.match(/echarts|zrender/)[0],
-        //   priority: -10,
-        // },
       },
     },
   },
