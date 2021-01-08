@@ -5,6 +5,7 @@ import config from './config'
 import { loading } from './ui'
 import { session } from './storage'
 
+const CancelToken = axios.CancelToken
 config.apiPrefix = config.apiPrefix || {}
 config.apiSuffix = config.apiSuffix || {}
 
@@ -34,32 +35,22 @@ upParams()
 // console.log('params:', params)
 
 // 初始化加载中队列
-window.ajaxLoading = []
 const showLoading = []
+const ajaxCancels = []
 
 // Ajax 请求封装
 export function ajax(opts) {
   upParams()
   opts.params = { ...params, ...opts.params }
-  opts.timeoutLimit = opts.timeoutLimit || 3 // 允许超时请求次数上限 (1-无超时重新请求)
+  opts.timeoutLimit = opts.timeoutLimit || 1 // 允许超时请求次数上限 (1-无超时重新请求)
+  opts.cancelToken = opts.cancelToken || `Cancel${new Date().getTime()}` // 用于取消请求的 token
 
   return new Promise((resolve, reject) => {
     const cachekey = opts.cachekey
     const cache = cachekey ? session(cachekey) : null
     const done = (res) => {
-      // 关闭接口动画
-      if (!opts.noAjaxLoading) {
-        window.ajaxLoading.pop()
-      }
-      if (!opts.noLoading) {
-        showLoading.pop()
-        if (showLoading.length <= 0) {
-          loading.hide()
-        }
-      }
-
       // 补充返回服务器时间
-      if (res.headers && res.headers.date && !res.data.serverTime) {
+      if (res.headers && res.headers.date && res.data && !res.data.serverTime) {
         res.data.serverTime = res.headers.date
       }
 
@@ -82,9 +73,6 @@ export function ajax(opts) {
     }
 
     // 调用接口动画
-    if (!opts.noAjaxLoading) {
-      window.ajaxLoading.push(1)
-    }
     if (!opts.noLoading) {
       showLoading.push(1)
       loading.show()
@@ -133,32 +121,39 @@ export function ajax(opts) {
 
       // 指定请求超时之前的毫秒数
       timeout: opts.timeout || 30000,
-    }).then(done).catch((err) => {
-      // 关闭接口动画
-      if (!opts.noAjaxLoading) {
-        window.ajaxLoading.pop()
-      }
-      if (!opts.noLoading) {
-        showLoading.pop()
-        if (showLoading.length <= 0) {
-          loading.hide()
-        }
-      }
 
+      // `auth` 表示应该使用 HTTP Basic 验证，并提供凭据
+      // 这将设置一个 `Authorization` header，覆写掉现有的任意使用 `headers` 设置的自定义 `Authorization` header
+      // auth: {
+      //   username: 'username',
+      //   password: 'password'
+      // },
+
+      // 指定用于取消请求的 cancel token
+      cancelToken: new CancelToken((cancel) => {
+        ajaxCancels.push({ token: opts.cancelToken, cancel })
+      }),
+    }).then(done).catch((err) => {
       // 请求超时处理
       if (err.code === 'ECONNABORTED') {
         opts.timeoutCount = (opts.timeoutCount || 0) + 1 // 记录请求超时次数
         if (opts.timeoutCount < opts.timeoutLimit) {
           console.log(`请求超时(${opts.timeoutCount}次): [${err}]`)
-          ajax(opts).then(() => {
-            resolve()
-          }).catch(() => {})
+          ajax(opts).then((data) => resolve(data)).catch((err) => reject(err))
           return
         }
       }
 
+      // 取消请求处理
+      if (axios.isCancel(err)) {
+        if (opts.cancel) {
+          opts.cancel(err)
+        }
+        return
+      }
+
       if (err.response) {
-        // 存在请求，但是服务器的返回一个状态码，都在 2xx 之外
+        // 请求已发出，但服务器响应的状态码不在 2xx 范围内
         console.log(err.response.data)
         console.log(err.response.status)
         console.log(err.response.headers)
@@ -173,85 +168,111 @@ export function ajax(opts) {
 
       console.log('网络异常: [' + err + ']')
       reject(err)
+    }).finally(() => {
+      // 关闭接口动画
+      if (!opts.noLoading) {
+        showLoading.pop()
+        if (showLoading.length <= 0) {
+          loading.hide()
+        }
+      }
+
+      // 移除加载中队列
+      const index = ajaxCancels.findIndex((item) => item.token === opts.cancelToken)
+      if (index >= 0) {
+        ajaxCancels.splice(index, 1)
+      }
     })
 
     xhrs.push(xhr)
   })
 }
 
-// get 传统url请求封装
-export function urlGet(url, params = {}, opts = {}) {
-  opts = Object.assign(opts, {
-    url,
-    params,
-    method: 'get',
-  })
+// 获取完整请求链接
+function getEntireUrl(url, opts) {
+  // 如果是完整路径
+  if (/^(https?:)?\/\//.test(url)) {
+    return url
+  }
 
-  return ajax(opts)
+  // 添加前缀后缀
+  const apiPrefix = config.apiPrefix[opts.apiPrefix] || config.apiPrefix.default || ''
+  const apiSuffix = config.apiSuffix[opts.apiSuffix] || config.apiSuffix.default || ''
+  return apiPrefix + url + apiSuffix
 }
 
-// post 传统url请求封装
-export function urlPost(url, data = {}, opts = {}) {
-  data = JSON.stringify(data)
-  // data = new URLSearchParams(data)
-  // data.append('param1', 'value1')
-  opts = Object.assign(opts, {
-    url,
-    data,
-    // headers: { 'content-type': 'application/x-www-form-urlencoded;charset=utf-8' },
-    // headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    // headers: { 'content-type': 'multipart/form-data' },
-    headers: { 'content-type': 'application/json' },
-    method: 'post',
-  })
-
-  return ajax(opts)
-}
-
-// 固定链接 请求方法不同的get
+// get 请求封装
 export function get(url, params = {}, opts = {}) {
-  // 前缀后缀处理
-  const apiPrefix = config.apiPrefix[opts.apiPrefix] || config.apiPrefix.default || ''
-  const apiSuffix = config.apiSuffix[opts.apiSuffix] || config.apiSuffix.default || ''
-  url = apiPrefix + url + apiSuffix
-
   opts = Object.assign(opts, {
-    url,
+    url: getEntireUrl(url, opts),
     params,
     method: 'get',
   })
-
   return ajax(opts)
 }
 
-// post 请求链接增加 config 前缀
+// post 请求封装
 export function post(url, data = {}, opts = {}) {
-  // 前缀后缀处理
-  const apiPrefix = config.apiPrefix[opts.apiPrefix] || config.apiPrefix.default || ''
-  const apiSuffix = config.apiSuffix[opts.apiSuffix] || config.apiSuffix.default || ''
-  url = apiPrefix + url + apiSuffix
-
-  data = JSON.stringify(data)
+  // data = JSON.stringify(data)
   // data = new URLSearchParams(data)
   // data.append('param1', 'value1')
+
   opts = Object.assign(opts, {
-    url,
-    data,
+    url: getEntireUrl(url, opts),
+    data: JSON.stringify(data),
     // headers: { 'content-type': 'application/x-www-form-urlencoded;charset=utf-8' },
     // headers: { 'content-type': 'application/x-www-form-urlencoded' },
     // headers: { 'content-type': 'multipart/form-data' },
     headers: { 'content-type': 'application/json' },
     method: 'post',
   })
-
   return ajax(opts)
+}
+
+// 异步请求本地链接
+export function localGet(url, data = {}) {
+  return new Promise((resolve, reject) => {
+    axios.get(url, data).then((res) => resolve(res.data)).catch((err) => reject(err))
+  })
+}
+
+// 设置全局 Authorization 凭据
+export function setAuthToken(KEY, AUTH_TOKEN) {
+  if (KEY === null) {
+    delete axios.defaults.headers.common.Authorization
+    return
+  }
+
+  if (!KEY) {
+    return
+  }
+
+  if (!AUTH_TOKEN) {
+    AUTH_TOKEN = KEY
+    KEY = config.authToken || 'Basic'
+  }
+
+  axios.defaults.headers.common.Authorization = `${KEY} ${AUTH_TOKEN}`
+}
+
+// 取消接口请求
+export function cancelRequest(cancelToken, message) {
+  const token = ajaxCancels.find((item) => item.token === cancelToken)
+  if (token) {
+    token.cancel(message)
+  }
+}
+
+// 取消所有接口请求
+export function cancelAllRequest(message) {
+  ajaxCancels.forEach((item) => item.cancel(message))
 }
 
 export default {
   xhrs,
   ajax,
-  urlGet,
-  urlPost,
   get,
   post,
+  cancelRequest,
+  cancelAllRequest,
 }

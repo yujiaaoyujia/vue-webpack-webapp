@@ -5,7 +5,7 @@ import setTitle from './hack'
 import cookie from './cookie'
 import { pureStore, store, pureSession, session, removeStoragesByKeyContains } from './storage'
 import { msg, toast, dialog, loading } from './ui'
-import { ajax, urlGet, urlPost, get, post, xhrs, params, upParams } from './ajax'
+import { ajax, get, post, xhrs, params, upParams, cancelRequest, cancelAllRequest } from './ajax'
 
 // 工具函数库
 export default {
@@ -48,11 +48,11 @@ export default {
 
   // ajax
   ajax,
-  urlGet,
-  urlPost,
   get,
   post,
   xhrs,
   params,
   upParams,
+  cancelRequest,
+  cancelAllRequest,
 }
