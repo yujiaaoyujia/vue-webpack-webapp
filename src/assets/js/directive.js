@@ -167,6 +167,106 @@ const flash = {
   },
 }
 
+const drag = {
+  bind(el) {
+    // 初始化当前位置
+    let currentX = 0
+    let currentY = 0
+
+    const touchStart = (event) => {
+      event.stopPropagation()
+      if (event.cancelable) {
+        event.preventDefault()
+      }
+
+      // 判断pc端或移动端 拿到event事件
+      const touch = event.touches ? event.touches[0] : event
+      const { clientX, clientY } = touch
+
+      // 计算当前元素距离可视区的距离
+      const distX = clientX - el.offsetLeft
+      const distY = clientY - el.offsetTop
+
+      const touchMove = (event) => {
+        event.stopPropagation()
+        if (event.cancelable) {
+          event.preventDefault()
+        }
+
+        // 判断pc端或移动端 拿到event事件
+        const touch = event.touches ? event.touches[0] : event
+        const { clientX, clientY } = touch
+
+        // 通过事件委托，计算移动的距离
+        let tranX = clientX - distX + currentX
+        let tranY = clientY - distY + currentY
+
+        // 移动当前元素
+        const transformStyle = `translate3d(${tranX}px, ${tranY}px, 1px)`
+        el.style.transform = transformStyle
+        el.style.mozTransform = transformStyle
+        el.style.webkitTransform = transformStyle
+
+        // 计算移动后的四边位置
+        const { left, right, top, bottom } = el.getBoundingClientRect()
+        const docWidth = document.documentElement.clientWidth || document.body.clientWidth
+        const docHeight = document.documentElement.clientHeight || document.body.clientHeight
+
+        // 超出边界不要移动元素
+        if (left < 0) {
+          tranX -= left
+        }
+        if (right > docWidth) {
+          tranX -= right - docWidth
+        }
+        if (top < 0) {
+          tranY -= top
+        }
+        if (bottom > docHeight) {
+          tranY -= bottom - docHeight
+        }
+
+        // 保持当前元素位置
+        if (left < 0 || right > docWidth || top < 0 || bottom > docHeight) {
+          const resetStyle = `translate3d(${tranX}px, ${tranY}px, 1px)`
+          el.style.transform = resetStyle
+          el.style.mozTransform = resetStyle
+          el.style.webkitTransform = resetStyle
+        }
+      }
+
+      const touchEnd = () => {
+        // 解析matrix的正则
+        const matrix3dReg = /^matrix3d\((?:[-\d.]+,\s*){12}([-\d.]+),\s*([-\d.]+)(?:,\s*[-\d.]+){2}\)/
+        const matrixReg = /^matrix\((?:[-\d.]+,\s*){4}([-\d.]+),\s*([-\d.]+)\)$/
+
+        // 获取解析后的transform样式属性值(计算后的样式)
+        const matrix3dSourceValue = jdy.getStyle(el, 'transform')
+        const matrix3dArrValue = matrix3dSourceValue.match(matrix3dReg) || matrix3dSourceValue.match(matrixReg)
+
+        // 记录matrix解析后的translateX & translateY的值
+        currentX = +matrix3dArrValue[1]
+        currentY = +matrix3dArrValue[2]
+
+        el.removeEventListener('touchmove', touchMove)
+        el.removeEventListener('mousemove', touchMove)
+        el.removeEventListener('touchend', touchEnd)
+        window.removeEventListener('mouseup', touchEnd)
+      }
+
+      // 添加移动和松开事件
+      el.addEventListener('touchmove', touchMove, { passive: false })
+      el.addEventListener('mousemove', touchMove, { passive: false })
+      el.addEventListener('touchend', touchEnd, { passive: true })
+      window.addEventListener('mouseup', touchEnd, { passive: true })
+    }
+
+    // 添加触发事件
+    el.addEventListener('touchstart', touchStart, { passive: false })
+    el.addEventListener('mousedown', touchStart, { passive: false })
+  },
+}
+
 // 阻止touch事件冒泡引发滚动 v-touch-stop-propagation
 const touchStopPropagation = {
   bind(el) {
@@ -206,5 +306,6 @@ export default {
   menu,
   active,
   flash,
+  drag,
   touchStopPropagation,
 }
