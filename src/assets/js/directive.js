@@ -184,8 +184,8 @@ const drag = {
       const { clientX, clientY } = touch
 
       // 计算当前元素距离可视区的距离
-      const distX = clientX - el.offsetLeft
-      const distY = clientY - el.offsetTop
+      const distX = clientX // - el.offsetLeft
+      const distY = clientY // - el.offsetTop
 
       const touchMove = (event) => {
         event.stopPropagation()
