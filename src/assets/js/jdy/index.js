@@ -6,6 +6,7 @@ import cookie from './cookie'
 import { pureStore, store, pureSession, session, removeStoragesByKeyContains } from './storage'
 import { msg, toast, dialog, loading } from './ui'
 import { ajax, get, post, xhrs, params, upParams, cancelRequest, cancelAllRequest } from './ajax'
+import { getStyle, deepExtend, getStringLength, intervalCondition } from './util'
 
 // 工具函数库
 export default {
@@ -55,4 +56,10 @@ export default {
   upParams,
   cancelRequest,
   cancelAllRequest,
+
+  // util
+  getStyle,
+  deepExtend,
+  getStringLength,
+  intervalCondition,
 }
