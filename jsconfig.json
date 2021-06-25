@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@static/*": ["./static/*"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    ".nyc_output"
+  ]
+}
