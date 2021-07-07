@@ -4,6 +4,7 @@ import config from './config'
 // import cookie from './cookie'
 import { loading } from './ui'
 import { session } from './storage'
+import { intervalCondition } from './util'
 
 const CancelToken = axios.CancelToken
 config.apiPrefix = config.apiPrefix || {}
@@ -229,6 +230,43 @@ export function post(url, data = {}, opts = {}) {
   return ajax(opts)
 }
 
+// post 请求堆栈
+const xhrArray = []
+export function awaitPost(url, data = {}, opts = {}) {
+  return new Promise((resolve, reject) => {
+    xhrArray.push(1)
+    console.log(`xhrArray: ${xhrArray}`)
+
+    const xhrLength = opts.xhrLength || 2
+    const success = opts.success
+    const error = opts.error
+    delete opts.success
+    delete opts.error
+
+    // 遍历判断同时允许的接口上限
+    intervalCondition({
+      condition: () => xhrArray.length <= xhrLength,
+      interval: 200,
+      timeout: -1,
+    }).then(() => {
+      post(url, data, opts).then((res) => {
+        if (success) {
+          success(res)
+        }
+        resolve(res)
+      }).catch((err) => {
+        if (error) {
+          error(err)
+        }
+        reject(err)
+      }).finally(() => {
+        xhrArray.pop()
+        console.log(`xhrArray: ${xhrArray}`)
+      })
+    })
+  })
+}
+
 // 异步请求本地链接
 export function localGet(url, data = {}) {
   return new Promise((resolve, reject) => {
@@ -273,6 +311,7 @@ export default {
   ajax,
   get,
   post,
+  awaitPost,
   cancelRequest,
   cancelAllRequest,
 }

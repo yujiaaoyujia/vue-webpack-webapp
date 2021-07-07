@@ -11,6 +11,15 @@ export function getStyle(el, attr) {
   return ''
 }
 
+// 分割数组
+export function getChunkList(list, len) {
+  const result = []
+  for (let i = 0; i < list.length; i += len) {
+    result.push(list.slice(i, i + len))
+  }
+  return result
+}
+
 // 对象深拷贝
 export function deepExtend(...rest) {
   const out = rest[0] || {}

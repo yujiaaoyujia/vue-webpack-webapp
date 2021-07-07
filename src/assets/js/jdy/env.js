@@ -5,11 +5,13 @@ export const dpr = window.devicePixelRatio || 1
 export const UA = window.navigator.userAgent.toLowerCase()
 export const isWeiXin = /MicroMessenger/i.test(UA) // 微信
 export const isWeApp = /miniProgram/i.test(UA) || window.__wxjs_environment === 'miniprogram' // 微信小程序
+export const isWxWindows = /MicroMessenger/i.test(UA) && /WindowsWechat/i.test(UA) // 微信Windows版
 export const isWxWork = /MicroMessenger/i.test(UA) && /wxwork/i.test(UA) // 企业微信
 export const isYzjApp = /Qing\/.*;(iOS|iPhone|Android).*/i.test(UA) // 云之家
 export const isDingTalk = /DingTalk/i.test(UA) // 钉钉
 export const isAlipay = /AlipayClient/i.test(UA) // 支付宝
 export const isWeLink = /HuaWei-AnyOffice/i.test(UA) // 华为WeLink
+export const isFeiShu = /Lark/i.test(UA) // 飞书
 export const isAndroid = UA.indexOf('android') > 0
 export const isIOS = /iphone|ipad|ipod|ios/.test(UA)
 export const isMobile = /Android|webOS|iPhone|iPad|iPod|ucweb|BlackBerry|IEMobile|Windows Mobile|Opera Mini/i.test(UA)

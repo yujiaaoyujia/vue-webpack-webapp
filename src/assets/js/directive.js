@@ -168,7 +168,7 @@ const flash = {
 }
 
 const drag = {
-  bind(el) {
+  bind(el, binding) {
     // 初始化当前位置
     let currentX = 0
     let currentY = 0
@@ -183,9 +183,10 @@ const drag = {
       const touch = event.touches ? event.touches[0] : event
       const { clientX, clientY } = touch
 
-      // 计算当前元素距离可视区的距离
-      const distX = clientX // - el.offsetLeft
-      const distY = clientY // - el.offsetTop
+      // 记录当前元素触摸位置
+      const touchX = clientX
+      const touchY = clientY
+      let distance = 0 // 触摸点发生位移的总距离
 
       const touchMove = (event) => {
         event.stopPropagation()
@@ -198,8 +199,11 @@ const drag = {
         const { clientX, clientY } = touch
 
         // 通过事件委托，计算移动的距离
-        let tranX = clientX - distX + currentX
-        let tranY = clientY - distY + currentY
+        const distX = clientX - touchX
+        const distY = clientY - touchY
+        let tranX = distX + currentX
+        let tranY = distY + currentY
+        distance = Math.abs(distX) + Math.abs(distY)
 
         // 移动当前元素
         const transformStyle = `translate3d(${tranX}px, ${tranY}px, 1px)`
@@ -245,13 +249,20 @@ const drag = {
         const matrix3dArrValue = matrix3dSourceValue.match(matrix3dReg) || matrix3dSourceValue.match(matrixReg)
 
         // 记录matrix解析后的translateX & translateY的值
-        currentX = +matrix3dArrValue[1]
-        currentY = +matrix3dArrValue[2]
+        if (matrix3dArrValue) {
+          currentX = +matrix3dArrValue[1]
+          currentY = +matrix3dArrValue[2]
+        }
 
         el.removeEventListener('touchmove', touchMove)
         el.removeEventListener('mousemove', touchMove)
         el.removeEventListener('touchend', touchEnd)
         window.removeEventListener('mouseup', touchEnd)
+
+        // 如果有回调事件
+        if (typeof binding.value === 'function' && distance < 5) {
+          binding.value()
+        }
       }
 
       // 添加移动和松开事件
