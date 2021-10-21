@@ -68,6 +68,9 @@ module.exports = {
     // 对伪类选择器强制小写或大写
     'stylus/selector-pseudo-class-case' : 'lower',
 
+    // 不允许低特异性的选择器出现在覆盖高特异性的选择器之后
+    'no-descending-specificity' : null,
+
     /* others */
     // 指定十六进制颜色的大小写
     'stylus/color-hex-case' : 'lower',
@@ -95,7 +98,7 @@ module.exports = {
     'no-eol-whitespace': null,
 
     // 对于小于1的小数，要求或不允许前导零
-    'stylus/number-leading-zero' : 'never',
+    // 'stylus/number-leading-zero' : 'never',
 
     // 不允许数字尾随零
     'stylus/number-no-trailing-zeros' : true,
