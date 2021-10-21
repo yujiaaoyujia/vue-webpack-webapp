@@ -274,6 +274,19 @@ export function localGet(url, data = {}) {
   })
 }
 
+// 取消接口请求
+export function cancelRequest(cancelToken, message) {
+  const token = ajaxCancels.find((item) => item.token === cancelToken)
+  if (token) {
+    token.cancel(message)
+  }
+}
+
+// 取消所有接口请求
+export function cancelAllRequest(message) {
+  ajaxCancels.forEach((item) => item.cancel(message))
+}
+
 // 设置全局 Authorization 凭据
 export function setAuthToken(KEY, AUTH_TOKEN) {
   if (KEY === null) {
@@ -291,19 +304,6 @@ export function setAuthToken(KEY, AUTH_TOKEN) {
   }
 
   axios.defaults.headers.common.Authorization = `${KEY} ${AUTH_TOKEN}`
-}
-
-// 取消接口请求
-export function cancelRequest(cancelToken, message) {
-  const token = ajaxCancels.find((item) => item.token === cancelToken)
-  if (token) {
-    token.cancel(message)
-  }
-}
-
-// 取消所有接口请求
-export function cancelAllRequest(message) {
-  ajaxCancels.forEach((item) => item.cancel(message))
 }
 
 export default {
